@@ -1,0 +1,265 @@
+#game {
+
+}
+
+/*  player-block  */
+.player-block {
+    overflow:hidden;
+    background: #dcd3bd;
+    margin-bottom: 10px;
+    padding:10px;
+    border-radius: 6px;
+}
+
+.player-block.is_you > .player-name {
+    color: #a9580f;
+}
+
+.player-block > .hand-card {
+    margin-top:10px;
+}
+
+.player-block > .hand-card > li{
+    padding:0;
+    list-style: none;
+    width:40px;
+    height:60px;
+    margin-right:10px;
+    float:left;
+    border:1px solid #2c3e50;
+    overflow: hidden;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    position: relative;
+}
+
+.player-block > .hand-card > li.white-color {
+    background-color: #cdcdcd;
+}
+.player-block > .hand-card > li.blue-color {
+    background-color: #4f82c3;
+}
+.player-block > .hand-card > li.yellow-color {
+    background-color: #c3c30d;
+}
+.player-block > .hand-card > li.red-color {
+    background-color: #c33b00;
+}
+.player-block > .hand-card > li.green-color {
+    background-color: #3ac34b;
+}
+.player-block > .hand-card > li.no-color {
+    background-color: #8f8f8b;
+}
+
+.player-block > .hand-card > li > span {
+    position: absolute;
+    font-size:32px;
+    left:12px;
+    top:10px;
+
+}
+
+
+/*  middle-block  */
+
+.middle-block {
+    overflow:hidden;
+    background: #aadcd6;
+    margin-bottom: 10px;
+    padding:10px;
+    border-radius: 6px;
+}
+
+
+.middle-block > .library-block {
+    height:60px;
+    width:40px;
+    background-color:#fefefe;
+    float:left;
+    margin-right:2px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border:1px solid #2c3e50;
+}
+
+.middle-block > .box-block {
+    float:left;
+    margin-right:10px;
+    font-size:12px;
+}
+
+
+.middle-block > .discard-block {
+    height:60px;
+    width:40px;
+    background-color:#fefefe;
+    float:right;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border:1px solid #2c3e50;
+}
+
+.middle-block {
+    > .table-block {
+        overflow: hidden;
+        float: left;
+        > li {
+            float:left;
+            padding-left:0;
+            margin-right:2px;
+            list-style: none;
+            width:30px;
+            height:60px;
+            overflow: hidden;
+            border:1px solid #2c3e50;
+            &.white-color {
+                background-color: #cdcdcd;
+            }
+            &.blue-color {
+                background-color: #4f82c3;
+            }
+            &.yellow-color {
+                background-color: #c3c30d;
+            }
+            &.red-color {
+                background-color: #c33b00;
+            }
+            &.green-color {
+                background-color: #3ac34b;
+            }
+            &.no-color {
+                background-color: #8f8f8b;
+            }
+        }
+    }
+}
+
+
+
+/*  card-operation-dialog  */
+.yourself-card-operation {
+  padding:10px;
+  overflow: hidden;
+}
+.yourself-card-operation > .selected-card-info {
+  width:36px;
+  height:60px;
+  margin-right:10px;
+  padding-left:4px;
+  float:left;
+  border:1px solid #2c3e50;
+  overflow: hidden;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #8f8f8b;
+  text-align:left;
+  margin-bottom:10px;
+}
+.yourself-card-operation {
+  .discard-btn {
+    float:left;
+    margin-bottom:10px;
+  }
+}
+
+.yourself-card-operation > .change-card {
+  border-top:1px solid #333;
+  clear:both;
+  padding-top:10px;
+}
+
+.yourself-card-operation > .change-card > li {
+  width:36px;
+  height:60px;
+  margin-right:10px;
+  padding-left:4px;
+  list-style-type: none;
+  float:left;
+  border:1px solid #2c3e50;
+  overflow: hidden;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #8f8f8b;
+  text-align:left;
+}
+
+.opposite-card-operation {
+    padding:10px;
+    > .selected-card-info {
+        float:left;
+        overflow: hidden;
+        margin-right:10px;
+        > span {
+            width:36px;
+            height:60px;
+            display: block;
+            border:1px solid #2c3e50;
+            overflow: hidden;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            font-size:32px;
+            &.white-color {
+                background-color: #cdcdcd;
+            }
+            &.blue-color {
+                background-color: #4f82c3;
+            }
+            &.yellow-color {
+                background-color: #c3c30d;
+            }
+            &.red-color {
+                background-color: #c33b00;
+            }
+            &.green-color {
+                background-color: #3ac34b;
+            }
+            &.no-color {
+                background-color: #8f8f8b;
+            }
+        }
+    }
+    > .cue-btn {
+        height:30px;
+        float:left;
+        width:200px;
+            > button {
+                font-size:12px;
+                padding:2px 4px;
+                height:20px;
+            }
+        &.cue-color {
+            background: #ab79c3;
+        }
+        &.cue-num {
+            background: #00acc3;
+        }
+    }
+}
+
+/* log-block */
+
+.log-block {
+    overflow:hidden;
+    background: #c6dcbc;
+    margin-bottom: 10px;
+    padding:10px;
+    border-radius: 6px;
+    > .log-list {
+        border:1px solid #2c3e50;
+        background: #fefefe;
+        height:100px;
+        overflow: scroll;
+        > li {
+            list-style: none;
+            padding-left:2px;
+            font-size:12px;
+        }
+    }
+}
