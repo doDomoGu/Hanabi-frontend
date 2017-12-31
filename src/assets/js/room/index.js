@@ -7,6 +7,7 @@ export default {
     }
   },
   mounted: function(){
+    let that = this;
     let canvas = document.querySelector('canvas'),
       ctx = canvas.getContext('2d');
 
@@ -36,10 +37,19 @@ console.log(ratio);
 
     ctx.fillStyle = "#7baadc";
     ctx.strokeStyle = '#7baadc';
-    this.drawRoundedRect({x:10 * ratio, y:10 * ratio, width: canvas.width - 20 * ratio, height:140 * ratio}, 10 * ratio, ctx);
-    this.drawRoundedRect({x:10 * ratio, y:160 * ratio, width:canvas.width - 20 * ratio, height:140 * ratio}, 10 * ratio, ctx);
+    this.drawRoundedRect({x:10 * ratio, y:10  * ratio, width: canvas.width - 20 * ratio, height:140 * ratio}, 10 * ratio, ctx);
+    this.drawRoundedRect({x:10 * ratio, y:160 * ratio, width: canvas.width - 20 * ratio, height:140 * ratio}, 10 * ratio, ctx);
+
+    ctx.fillStyle = "#dc0c22";
+    this.drawRoundedRect({x:10 * ratio, y:320 * ratio, width: canvas.width - 20 * ratio, height:40  * ratio}, 10 * ratio, ctx);
+    ctx.font = '30pt Arial';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillText('退出房间',canvas.width / 2  - 50 * ratio , 350 * ratio);
 
 
+    canvas.onclick = function(){
+      that.exit();
+    }
     /*ctx.lineWidth = .3;
     ctx.strokeStyle = (new Color(150)).style;*/
   },
