@@ -26,18 +26,18 @@ export default {
 console.log(ratio);
     console.log(window);
     /*console.log(canvas);*/
-    canvas.width = window.innerWidth * ratio;
-    canvas.height = window.innerHeight *ratio;
+    canvas.width = window.innerWidth * ratio ;
+    canvas.height = (window.innerHeight - 40) *ratio;
 
     ctx.fillStyle = "#cececa";
-    ctx.fillRect(0,0,window.innerWidth*ratio,window.innerHeight* ratio);
+    ctx.fillRect(0,0,window.innerWidth * ratio,(window.innerHeight - 40) *ratio);
 
 
 
     ctx.fillStyle = "#7baadc";
     ctx.strokeStyle = '#7baadc';
-    this.drawRoundedRect({x:10 * ratio, y:50 * ratio, width:(window.innerWidth - 20) * ratio, height:140 * ratio}, 10 * ratio, ctx);
-    this.drawRoundedRect({x:10 * ratio, y:200 * ratio, width:(window.innerWidth - 20) * ratio, height:140 * ratio}, 10 * ratio, ctx);
+    this.drawRoundedRect({x:10 * ratio, y:10 * ratio, width: canvas.width - 20 * ratio, height:140 * ratio}, 10 * ratio, ctx);
+    this.drawRoundedRect({x:10 * ratio, y:160 * ratio, width:canvas.width - 20 * ratio, height:140 * ratio}, 10 * ratio, ctx);
 
 
     /*ctx.lineWidth = .3;
