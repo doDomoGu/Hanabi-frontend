@@ -8,11 +8,17 @@ export default {
   },
   mounted: function(){
     let that = this;
+
+    //console.log(window);
+
+    /* 获得canvas */
     let canvas = document.querySelector('canvas'),
       ctx = canvas.getContext('2d');
+    //console.log(canvas);
 
-    var getPixelRatio = function(context) {
-      var backingStore = context.backingStorePixelRatio ||
+    /* 获得屏幕像素缩放比例 */
+    let getPixelRatio = function(context) {
+      let backingStore = context.backingStorePixelRatio ||
         context.webkitBackingStorePixelRatio ||
         context.mozBackingStorePixelRatio ||
         context.msBackingStorePixelRatio ||
@@ -22,36 +28,105 @@ export default {
       return (window.devicePixelRatio || 1) / backingStore;
     };
 
-    var ratio = getPixelRatio(ctx);
+    let ratio = getPixelRatio(ctx);
+    //console.log(ratio);
 
-console.log(ratio);
-    console.log(window);
-    /*console.log(canvas);*/
+    /* 设置canvas宽度高度，铺满全屏 */
     canvas.width = window.innerWidth * ratio ;
     canvas.height = (window.innerHeight - 40) *ratio;
+    ctx.fillStyle = "#cececa"; //屏幕背景色
+    ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    ctx.fillStyle = "#cececa";
-    ctx.fillRect(0,0,window.innerWidth * ratio,(window.innerHeight - 40) *ratio);
-
-
-
-    ctx.fillStyle = "#7baadc";
-    ctx.strokeStyle = '#7baadc';
-    this.drawRoundedRect({x:10 * ratio, y:10  * ratio, width: canvas.width - 20 * ratio, height:140 * ratio}, 10 * ratio, ctx);
-    this.drawRoundedRect({x:10 * ratio, y:160 * ratio, width: canvas.width - 20 * ratio, height:140 * ratio}, 10 * ratio, ctx);
-
-    ctx.fillStyle = "#dc0c22";
-    this.drawRoundedRect({x:10 * ratio, y:320 * ratio, width: canvas.width - 20 * ratio, height:40  * ratio}, 10 * ratio, ctx);
-    ctx.font = '30pt Arial';
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillText('退出房间',canvas.width / 2  - 50 * ratio , 350 * ratio);
+    /* 常量 */
 
 
-    canvas.onclick = function(){
-      that.exit();
+    const player_area_color = "#7baadc"; //玩家区域的背景色
+    
+    const left_pad = 10 * ratio; //左侧pad
+    const right_pad = canvas.width - 20 * ratio; //右侧pad
+    
+    const player_height = 140 * ratio; //玩家区域的高度
+    const btn_height = 30 * ratio; //按钮高度
+
+    const player_1_y_offset = 10  * ratio; //玩家1区域的上下位置偏移量
+    const player_2_y_offset = 160 * ratio; //玩家2区域的上下位置偏移量
+    const exit_btn_y_offset = 320 * ratio; //退出按钮区域的上下位置偏移量
+
+    const exit_btn_color    = "#dc0c22"
+
+    /* 绘图 */
+
+
+    //绘制圆角矩形
+    let drawRoundedRect = function (rect, r, ctx) {
+      let point = function(x, y) {
+        return {x:x, y:y};
+      }
+      let ptA = point(rect.x + r, rect.y);
+      let ptB = point(rect.x + rect.width, rect.y);
+      let ptC = point(rect.x + rect.width, rect.y + rect.height);
+      let ptD = point(rect.x, rect.y + rect.height);
+      let ptE = point(rect.x, rect.y);
+
+      ctx.beginPath();
+
+      ctx.moveTo(ptA.x, ptA.y);
+      ctx.arcTo(ptB.x, ptB.y, ptC.x, ptC.y, r);
+      ctx.arcTo(ptC.x, ptC.y, ptD.x, ptD.y, r);
+      ctx.arcTo(ptD.x, ptD.y, ptE.x, ptE.y, r);
+      ctx.arcTo(ptE.x, ptE.y, ptA.x, ptA.y, r);
+
+      ctx.stroke();
+      ctx.fill();
     }
-    /*ctx.lineWidth = .3;
-    ctx.strokeStyle = (new Color(150)).style;*/
+
+
+    ctx.fillStyle = player_area_color;
+    ctx.strokeStyle = player_area_color;
+    drawRoundedRect({x:left_pad, y:player_1_y_offset, width: right_pad, height:player_height}, 10 * ratio, ctx);
+    drawRoundedRect({x:left_pad, y:player_2_y_offset, width: right_pad, height:player_height}, 10 * ratio, ctx);
+
+    ctx.fillStyle = exit_btn_color;
+    drawRoundedRect({x:left_pad, y:exit_btn_y_offset, width: right_pad, height:btn_height}, 10 * ratio, ctx);
+
+    ctx.font = '40px Arial';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textAlign="center";
+    ctx.fillText('退出房间',canvas.width / 2, 340 * ratio);
+
+
+
+
+
+    /* 点击事件 */
+    canvas.addEventListener("click", function(evt){
+      // 获得点击位置
+      let getMousePos = function(evt) {
+        let rect = canvas.getBoundingClientRect();
+        return {
+          x: (evt.clientX - rect.left)*ratio,
+          y: (evt.clientY - rect.top)*ratio
+        };
+      }
+      let mousePos = getMousePos(evt);
+      let message = "鼠标指针坐标：" + mousePos.x + "," + mousePos.y;
+      message += '('+left_pad+','+right_pad+','+exit_btn_y_offset+','+(exit_btn_y_offset+btn_height)+')';
+      writeMessage(canvas, message);
+
+       if(mousePos.x >= left_pad && mousePos.x <= right_pad && mousePos.y >= exit_btn_y_offset &&  mousePos.y <= (exit_btn_y_offset+btn_height)){
+         that.exit();
+       }
+    },false);
+
+
+    let writeMessage = function(canvas,message) {
+      ctx.clearRect(left_pad, 400 * ratio, right_pad, 40 * ratio);
+      ctx.font = "20pt Microsoft JhengHei";
+      ctx.fillStyle = "tomato";
+      ctx.textAlign="left";
+      ctx.fillText(message, 20 * ratio, 420 * ratio);
+    };
+
   },
   created: function(){
 
@@ -86,28 +161,6 @@ console.log(ratio);
     }
   },
   methods: {
-    Point (x, y) {
-      return {x:x, y:y};
-    },
-    drawRoundedRect(rect, r, ctx) {
-      let ptA = this.Point(rect.x + r, rect.y);
-      let ptB = this.Point(rect.x + rect.width, rect.y);
-      let ptC = this.Point(rect.x + rect.width, rect.y + rect.height);
-      let ptD = this.Point(rect.x, rect.y + rect.height);
-      let ptE = this.Point(rect.x, rect.y);
-
-      ctx.beginPath();
-
-      ctx.moveTo(ptA.x, ptA.y);
-      ctx.arcTo(ptB.x, ptB.y, ptC.x, ptC.y, r);
-      ctx.arcTo(ptC.x, ptC.y, ptD.x, ptD.y, r);
-      ctx.arcTo(ptD.x, ptD.y, ptE.x, ptE.y, r);
-      ctx.arcTo(ptE.x, ptE.y, ptA.x, ptA.y, r);
-
-      ctx.stroke();
-      ctx.fill();
-    },
-
     exit(){
       MessageBox.confirm('确定要退出房间?').then(action => {
         if(action==='confirm'){
