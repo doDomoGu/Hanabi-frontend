@@ -8,7 +8,6 @@ export default {
   },
   mounted: function(){
     let that = this;
-
     //console.log(window);
 
     /* 获得canvas */
@@ -34,12 +33,10 @@ export default {
     /* 设置canvas宽度高度，铺满全屏 */
     canvas.width = window.innerWidth * ratio ;
     canvas.height = (window.innerHeight - 40) *ratio;
-    ctx.fillStyle = "#cececa"; //屏幕背景色
+    ctx.fillStyle = "#dedede"; //屏幕背景色
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
     /* 常量 */
-
-
     const player_area_color = "#7baadc"; //玩家区域的背景色
     
     const left_pad = 10 * ratio; //左侧pad
@@ -56,8 +53,7 @@ export default {
 
     /* 绘图 */
 
-
-    //绘制圆角矩形
+    //函数：绘制圆角矩形
     let drawRoundedRect = function (rect, r, ctx) {
       let point = function(x, y) {
         return {x:x, y:y};
@@ -76,23 +72,24 @@ export default {
       ctx.arcTo(ptD.x, ptD.y, ptE.x, ptE.y, r);
       ctx.arcTo(ptE.x, ptE.y, ptA.x, ptA.y, r);
 
-      ctx.stroke();
+      //ctx.stroke();  //边框绘制 根据笔触样式(strokeStyle)
       ctx.fill();
     }
 
-
+    //绘制玩家1和玩家2区域
     ctx.fillStyle = player_area_color;
-    ctx.strokeStyle = player_area_color;
     drawRoundedRect({x:left_pad, y:player_1_y_offset, width: right_pad, height:player_height}, 10 * ratio, ctx);
     drawRoundedRect({x:left_pad, y:player_2_y_offset, width: right_pad, height:player_height}, 10 * ratio, ctx);
 
+    //绘制退出按钮
     ctx.fillStyle = exit_btn_color;
     drawRoundedRect({x:left_pad, y:exit_btn_y_offset, width: right_pad, height:btn_height}, 10 * ratio, ctx);
-
     ctx.font = '40px Arial';
     ctx.fillStyle = '#FFFFFF';
     ctx.textAlign="center";
     ctx.fillText('退出房间',canvas.width / 2, 340 * ratio);
+
+
 
 
 
@@ -104,8 +101,8 @@ export default {
       let getMousePos = function(evt) {
         let rect = canvas.getBoundingClientRect();
         return {
-          x: (evt.clientX - rect.left)*ratio,
-          y: (evt.clientY - rect.top)*ratio
+          x: (evt.clientX - rect.left) * ratio,
+          y: (evt.clientY - rect.top) * ratio
         };
       }
       let mousePos = getMousePos(evt);
@@ -133,10 +130,10 @@ export default {
     this.$store.dispatch('my_room/IsInRoom').then(()=>{
 
       this.$store.dispatch('common/SetTitle2','房间'+this.$store.getters['my_room/room_id']);
-      this.getRoomInfo();
+      this.$store.dispatch('my_room/GetRoomInfo');
 
       this.intervalid1 = setInterval(()=>{
-        this.getRoomInfo();
+        this.$store.dispatch('my_room/GetRoomInfo');
         this.$store.dispatch('my_game/IsInGame').then(()=>{
           if(this.$store.getters['my_game/is_playing']){
             this.$router.push('/game');
@@ -171,9 +168,6 @@ export default {
           return false;
         }
       });
-    },
-    getRoomInfo(){
-      this.$store.dispatch('my_room/GetRoomInfo');
     },
     doReady(){
       this.$store.dispatch('my_room/DoReady');
