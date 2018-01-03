@@ -36,34 +36,88 @@ export default {
     this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
 
     /* 常量 */
-    this.player_area_color = "#7baadc"; //玩家区域的背景色
+    this.player_area_bg_color   = "#5fc0f3"; //玩家区域的背景色
+    this.player_info_bg_color   = "#ccf0f1"; //玩家信息的背景色
+    this.player_info_text_color = "#283085"; //玩家信息的文本色
 
-    this.left_pad = 10 * this.ratio; //左侧pad
-    this.right_pad = this.canvas.width - 20 * this.ratio; //右侧pad
+    this.player_button_bg_color           = "#f18d98"; //玩家按钮的背景色
+    this.player_button_text_color         = "#e7f1ef"; //玩家按钮的文本色
+    this.player_button_disable_bg_color   = "#e7f1ef"; //玩家按钮(禁用)的背景色
+    this.player_button_disable_text_color = "#626262"; //玩家按钮(禁用)的文本色
 
-    this.player_height = 140 * this.ratio; //玩家区域的高度
-    this.btn_height = 30 * this.ratio; //按钮高度
+    this.exit_btn_color    = "#dc0c22"   //退出按钮颜色
 
-    this.player_1_y_offset = 10  * this.ratio; //玩家1区域的上下位置偏移量
-    this.player_2_y_offset = 160 * this.ratio; //玩家2区域的上下位置偏移量
-    this.exit_btn_y_offset = 320 * this.ratio; //退出按钮区域的上下位置偏移量
+    this.radius = 10 * this.ratio;            //矩形圆角半径
 
-    this.exit_btn_color    = "#dc0c22"
+    this.top_left_pad = 10 * this.ratio;      //左侧pad
+    this.top_width    = this.canvas.width - this.top_left_pad * 2; //去除左右pad后的宽度
+
+    this.player_area_x        = this.top_left_pad; //玩家区域x偏移量(相对整个画布)
+    this.player_area_host_y   = 10  * this.ratio;  //房主玩家区域y偏移量(相对整个画布)
+    this.player_area_guest_y  = 160 * this.ratio;  //访客玩家区域y偏移量(相对整个画布)
+    this.player_area_height   = 140 * this.ratio;  //玩家区域的高度
+    this.player_area_width    = this.top_width;    //玩家区域的宽度
+
+    this.player_button_x_offset = 20  * this.ratio; //玩家区域内按钮x偏移量(相对玩家区域)
+    this.player_button_y_offset = 80  * this.ratio; //玩家区域内按钮y偏移量(相对玩家区域)
+    this.player_button_width    = 100 * this.ratio; //玩家区域内按钮宽度
+    this.player_button_height   = 30  * this.ratio; //玩家区域内按钮高度
+
+    this.player_button_text_x_offset = 20 * this.ratio;   //玩家区域内按钮内文字x偏移量(相对按钮区域)
+    this.player_button_text_y_offset = 20 * this.ratio;   //玩家区域内按钮内文字y偏移量(相对按钮区域)
+
+    this.exit_btn_x      = this.top_left_pad; //退出按钮x偏移量(相对整个画布)
+    this.exit_btn_y      = 320 * this.ratio;  //退出按钮y偏移量(相对整个画布)
+    this.exit_btn_height = 30 * this.ratio;   //退出按钮高度
+    this.exit_btn_width  = this.top_width;    //退出按钮宽度
+
+    //this.exit_btn_text_x  = 20 * this.ratio;    //退出按钮内文字x偏移量(相对按钮区域)
+    this.exit_btn_text_y  = 20 * this.ratio;    //退出按钮内文字y偏移量(相对按钮区域)
+
+
+
 
     /* 绘图 */
 
     //绘制玩家1和玩家2区域
-    this.ctx.fillStyle = this.player_area_color;
-    this.drawRoundedRect({x:this.left_pad, y:this.player_1_y_offset, width: this.right_pad, height:this.player_height}, 10 * this.ratio, this.ctx);
-    this.drawRoundedRect({x:this.left_pad, y:this.player_2_y_offset, width: this.right_pad, height:this.player_height}, 10 * this.ratio, this.ctx);
+    this.ctx.fillStyle = this.player_area_bg_color;
+    this.drawRoundedRect(
+      {
+        x:  this.player_area_x,
+        y:  this.player_area_host_y,
+        w:  this.player_area_width,
+        h: this.player_area_height
+      },
+      this.radius,
+      this.ctx
+    );
+    this.drawRoundedRect(
+      {
+        x:  this.player_area_x,
+        y:  this.player_area_guest_y,
+        w:  this.player_area_width,
+        h: this.player_area_height
+      },
+      this.radius,
+      this.ctx
+    );
 
     //绘制退出按钮
     this.ctx.fillStyle = this.exit_btn_color;
-    this.drawRoundedRect({x:this.left_pad, y:this.exit_btn_y_offset, width: this.right_pad, height:this.btn_height}, 10 * this.ratio, this.ctx);
+    this.drawRoundedRect(
+      {
+        x:this.exit_btn_x,
+        y:this.exit_btn_y,
+        w: this.exit_btn_width,
+        h:this.exit_btn_height
+      },
+      this.radius,
+      this.ctx
+    );
     this.ctx.font = '40px Arial';
     this.ctx.fillStyle = '#FFFFFF';
     this.ctx.textAlign="center";
-    this.ctx.fillText('退出房间',this.canvas.width / 2, 340 * this.ratio);
+    this.ctx.fillText('退出房间',this.canvas.width / 2, this.exit_btn_y + this.exit_btn_text_y);
 
 
     //let that = this;
@@ -79,20 +133,25 @@ export default {
       }
       let mousePos = getMousePos(evt);
       let message = "鼠标指针坐标：" + mousePos.x + "," + mousePos.y;
-      message += '('+that.left_pad+','+that.right_pad+','+that.exit_btn_y_offset+','+(that.exit_btn_y_offset + that.btn_height)+')';
+      message += '('+that.top_left_pad+','+that.top_width+','+that.exit_btn_y_offset+','+(that.exit_btn_y_offset + that.btn_height)+')';
       writeMessage(message);
 
-       if(mousePos.x >= that.left_pad &&
-         mousePos.x <= that.right_pad &&
+       if(mousePos.x >= that.top_left_pad &&
+         mousePos.x <= that.top_width &&
          mousePos.y >= that.exit_btn_y_offset &&
          mousePos.y <= (that.exit_btn_y_offset + that.btn_height)){
          that.exit();
+       }else if(mousePos.x >= that.top_left_pad &&
+         mousePos.x <= that.top_width &&
+         mousePos.y >= that.exit_btn_y_offset &&
+         mousePos.y <= (that.exit_btn_y_offset + that.btn_height)){
+         that.re();
        }
     },false);
 
 
     let writeMessage = function(message) {
-      that.ctx.clearRect(that.left_pad, 400 * that.ratio, that.right_pad, 40 * that.ratio);
+      that.ctx.clearRect(that.top_left_pad, 400 * that.ratio, that.top_width, 40 * that.ratio);
       that.ctx.font = "20px Microsoft JhengHei";
       that.ctx.fillStyle = "tomato";
       that.ctx.textAlign="left";
@@ -131,6 +190,9 @@ export default {
         if(val.name!==oldVal.name){
           this.drawPlayerInfo(val,false);
         }
+        if(val.is_ready!==oldVal.is_ready){
+          this.drawPlayerButton(val.is_ready)
+        }
       }
     },
   },
@@ -151,13 +213,14 @@ export default {
   methods: {
     //函数：绘制圆角矩形
     drawRoundedRect(rect, r, ctx) {
+
       let point = function(x, y) {
         return {x:x, y:y};
       }
       let ptA = point(rect.x + r, rect.y);
-      let ptB = point(rect.x + rect.width, rect.y);
-      let ptC = point(rect.x + rect.width, rect.y + rect.height);
-      let ptD = point(rect.x, rect.y + rect.height);
+      let ptB = point(rect.x + rect.w, rect.y);
+      let ptC = point(rect.x + rect.w, rect.y + rect.h);
+      let ptD = point(rect.x, rect.y + rect.h);
       let ptE = point(rect.x, rect.y);
 
       ctx.beginPath();
@@ -174,18 +237,75 @@ export default {
     drawPlayerInfo(info,is_host){
       let rect_y_offset,text_y_offset;
       if(is_host){
-        rect_y_offset = this.player_1_y_offset + 20 * this.ratio;
-        text_y_offset = this.player_1_y_offset + 46 * this.ratio;
+        rect_y_offset = this.player_area_host_y + 20 * this.ratio;
+        text_y_offset = this.player_area_host_y + 46 * this.ratio;
       }else{
-        rect_y_offset = this.player_2_y_offset + 20 * this.ratio;
-        text_y_offset = this.player_2_y_offset + 46 * this.ratio;
+        rect_y_offset = this.player_area_guest_y + 20 * this.ratio;
+        text_y_offset = this.player_area_guest_y + 46 * this.ratio;
       }
+      let rect = {
+        x:this.player_area_x + 20 * this.ratio,
+        y:rect_y_offset,
+        w:this.player_area_width - 40 * this.ratio,
+        h:40 * this.ratio
+      };
+      this.ctx.fillStyle = this.player_info_bg_color;
 
-      this.ctx.clearRect(this.left_pad + 20 * this.ratio, rect_y_offset, this.right_pad - 40 * this.ratio, 40 * this.ratio);
+      this.drawRoundedRect(rect,this.radius, this.ctx);
       this.ctx.font = "36px Microsoft JhengHei";
-      this.ctx.fillStyle = "tomato";
+      this.ctx.fillStyle = this.player_info_text_color;
       this.ctx.textAlign="left";
-      this.ctx.fillText((is_host?'房主':'玩家')+' : '+info.name, this.left_pad + 40 * this.ratio, text_y_offset);
+      this.ctx.fillText((is_host?'房主':'玩家')+' : '+info.name+(this.is_host===is_host?' (你)':''), this.player_area_x + 40 * this.ratio, text_y_offset);
+    },
+    drawPlayerButton(is_ready){
+      let button_width = this.player_button_width;   //按钮宽度
+      let button_height = this.player_button_height;   //按钮高度
+      let button_x_offset = this.player_button_x_offset; //按钮横轴偏移量
+      let button_y_offset = this.player_button_y_offset; //按钮纵轴偏移量
+      let radius = this.radius;          //圆角半径
+
+      let text_x_offset = this.player_button_text_x_offset;   //按钮内文字横轴偏移量
+      let text_y_offset = this.player_button_text_y_offset;   //按钮内文字纵轴偏移量
+
+
+      let rect_host = {
+        x:this.player_area_x + button_x_offset,
+        y:this.player_area_host_y + button_y_offset,
+        w: button_width,
+        h: button_height
+      };
+      let rect_guest = {
+        x:this.player_area_x + button_x_offset,
+        y:this.player_area_guest_y + button_y_offset,
+        w: button_width,
+        h: button_height
+      };
+
+      this.ctx.font = "30px Microsoft JhengHei";
+      this.ctx.textAlign="left";
+
+      if(this.is_host){
+        if(is_ready){
+          this.ctx.fillStyle = this.player_button_bg_color;
+          this.drawRoundedRect(rect_host, radius, this.ctx);
+          this.ctx.fillStyle = this.player_button_text_color;
+          this.ctx.fillText('开始游戏！', rect_host.x + text_x_offset, rect_host.y + text_y_offset);
+        }else{
+          this.ctx.fillStyle = this.player_button_disable_bg_color;
+          this.drawRoundedRect(rect_host, radius, this.ctx);
+          this.ctx.fillStyle = this.player_button_disable_text_color;
+          this.ctx.fillText('开始游戏！', rect_host.x + text_x_offset, rect_host.y + text_y_offset);
+        }
+      }else{
+        this.ctx.fillStyle = this.player_button_bg_color;
+        this.drawRoundedRect(rect_guest, radius, this.ctx);
+        this.ctx.fillStyle = this.player_button_text_color;
+        if(is_ready){
+          this.ctx.fillText('取消准备', rect_guest.x + text_x_offset, rect_guest.y + text_y_offset);
+        }else{
+          this.ctx.fillText('准备！', rect_guest.x + text_x_offset, rect_guest.y + text_y_offset);
+        }
+      }
     },
     exit(){
       MessageBox.confirm('确定要退出房间?').then(action => {
