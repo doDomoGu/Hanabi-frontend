@@ -45,7 +45,8 @@ export default {
     this.player_button_disable_bg_color   = "#e7f1ef"; //玩家按钮(禁用)的背景色
     this.player_button_disable_text_color = "#626262"; //玩家按钮(禁用)的文本色
 
-    this.exit_btn_color    = "#dc0c22"   //退出按钮颜色
+    this.exit_btn_color          = "#dc0c22"   //退出按钮颜色
+    this.exit_btn_touch_color    = "#359126"   //退出按钮颜色(触摸时)
 
     this.radius = 10 * this.ratio;            //矩形圆角半径
 
@@ -83,9 +84,9 @@ export default {
     this.ctx.fillStyle = this.player_area_bg_color;
     this.drawRoundedRect(
       {
-        x:  this.player_area_x,
-        y:  this.player_area_host_y,
-        w:  this.player_area_width,
+        x: this.player_area_x,
+        y: this.player_area_host_y,
+        w: this.player_area_width,
         h: this.player_area_height
       },
       this.radius,
@@ -93,9 +94,9 @@ export default {
     );
     this.drawRoundedRect(
       {
-        x:  this.player_area_x,
-        y:  this.player_area_guest_y,
-        w:  this.player_area_width,
+        x: this.player_area_x,
+        y: this.player_area_guest_y,
+        w: this.player_area_width,
         h: this.player_area_height
       },
       this.radius,
@@ -106,10 +107,10 @@ export default {
     this.ctx.fillStyle = this.exit_btn_color;
     this.drawRoundedRect(
       {
-        x:this.exit_btn_x,
-        y:this.exit_btn_y,
+        x: this.exit_btn_x,
+        y: this.exit_btn_y,
         w: this.exit_btn_width,
-        h:this.exit_btn_height
+        h: this.exit_btn_height
       },
       this.radius,
       this.ctx
@@ -119,28 +120,27 @@ export default {
     this.ctx.textAlign="center";
     this.ctx.fillText('退出房间',this.canvas.width / 2, this.exit_btn_y + this.exit_btn_text_y);
 
-
-    //let that = this;
     /* 点击事件 */
     this.canvas.addEventListener("click", function(evt){
-      // 获得点击位置
-      let getMousePos = function(evt) {
-        let rect = that.canvas.getBoundingClientRect();
-        return {
-          x: (evt.clientX - rect.left) * that.ratio,
-          y: (evt.clientY - rect.top) * that.ratio
-        };
-      }
-      let mousePos = getMousePos(evt);
-      let message = "鼠标指针坐标：" + mousePos.x + "," + mousePos.y;
-      message += '('+that.top_left_pad+','+that.top_width+','+that.exit_btn_y_offset+','+(that.exit_btn_y_offset + that.btn_height)+')';
-      writeMessage(message);
-
-       if(mousePos.x >= that.top_left_pad &&
-         mousePos.x <= that.top_width &&
-         mousePos.y >= that.exit_btn_y_offset &&
-         mousePos.y <= (that.exit_btn_y_offset + that.btn_height)){
+      //console.log(evt); return true;
+      //evt = evt.changedTouches[0]; //touchend
+      //evt = evt.touches[0];   //touchstart
+      let mousePos = that.getMousePos(evt);
+      writeMessage("鼠标指针坐标：" + mousePos.x + "," + mousePos.y);
+       if(that.isExitBtnPath(mousePos)){
+         /*that.ctx.fillStyle = that.exit_btn_touch_color;
+         that.drawRoundedRect(
+           {
+             x: that.exit_btn_x,
+             y: that.exit_btn_y,
+             w: that.exit_btn_width,
+             h: that.exit_btn_height
+           },
+           that.radius,
+           that.ctx
+         );*/
          that.exit();
+         //that.exit();
        }else if(mousePos.x >= that.top_left_pad &&
          mousePos.x <= that.top_width &&
          mousePos.y >= that.exit_btn_y_offset &&
@@ -148,7 +148,6 @@ export default {
          that.re();
        }
     },false);
-
 
     let writeMessage = function(message) {
       that.ctx.clearRect(that.top_left_pad, 400 * that.ratio, that.top_width, 40 * that.ratio);
@@ -211,6 +210,14 @@ export default {
     }
   },
   methods: {
+    // 获得点击位置
+    getMousePos(evt) {
+      let rect = this.canvas.getBoundingClientRect();
+      return {
+        x: (Math.round(evt.clientX) - rect.left) * this.ratio,
+        y: (Math.round(evt.clientY) - rect.top) * this.ratio
+      };
+    },
     //函数：绘制圆角矩形
     drawRoundedRect(rect, r, ctx) {
 
@@ -244,10 +251,10 @@ export default {
         text_y_offset = this.player_area_guest_y + 46 * this.ratio;
       }
       let rect = {
-        x:this.player_area_x + 20 * this.ratio,
-        y:rect_y_offset,
-        w:this.player_area_width - 40 * this.ratio,
-        h:40 * this.ratio
+        x: this.player_area_x + 20 * this.ratio,
+        y: rect_y_offset,
+        w: this.player_area_width - 40 * this.ratio,
+        h: 40 * this.ratio
       };
       this.ctx.fillStyle = this.player_info_bg_color;
 
@@ -269,14 +276,14 @@ export default {
 
 
       let rect_host = {
-        x:this.player_area_x + button_x_offset,
-        y:this.player_area_host_y + button_y_offset,
+        x: this.player_area_x + button_x_offset,
+        y: this.player_area_host_y + button_y_offset,
         w: button_width,
         h: button_height
       };
       let rect_guest = {
-        x:this.player_area_x + button_x_offset,
-        y:this.player_area_guest_y + button_y_offset,
+        x: this.player_area_x + button_x_offset,
+        y: this.player_area_guest_y + button_y_offset,
         w: button_width,
         h: button_height
       };
@@ -307,6 +314,12 @@ export default {
         }
       }
     },
+    isExitBtnPath(mousePos){
+      return (mousePos.x >= this.top_left_pad &&
+        mousePos.x <= this.top_left_pad + this.top_width &&
+        mousePos.y >= this.exit_btn_y &&
+        mousePos.y <= (this.exit_btn_y + this.exit_btn_height));
+    },
     exit(){
       MessageBox.confirm('确定要退出房间?').then(action => {
         if(action==='confirm'){
@@ -316,7 +329,7 @@ export default {
         }else{
           return false;
         }
-      });
+      },()=>{});
     },
     doReady(){
       this.$store.dispatch('my_room/DoReady');
