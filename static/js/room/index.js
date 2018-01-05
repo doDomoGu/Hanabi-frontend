@@ -184,7 +184,7 @@ export default {
 
       this.$store.dispatch('common/SetTitle2','房间'+this.$store.getters['my_room/room_id']);
       this.$store.dispatch('my_room/GetRoomInfo');
-      this.drawPlayerButton(); 
+      this.drawPlayerButton();
       this.intervalid1 = setInterval(()=>{
         this.$store.dispatch('my_room/GetRoomInfo');
         this.$store.dispatch('my_game/IsInGame').then(()=>{
@@ -322,18 +322,21 @@ export default {
         }
       }
     },
+    //判断点击位置是否为"退出"按钮
     isExitBtnPath(mousePos){
       return (mousePos.x >= this.top_left_pad &&
         mousePos.x <= (this.top_left_pad + this.top_width) &&
         mousePos.y >= this.exit_btn_y &&
         mousePos.y <= (this.exit_btn_y + this.exit_btn_height));
     },
+    //判断点击位置是否为"准备"按钮
     isReadyBtnPath(mousePos){
       return (mousePos.x >= this.player_button_rect_guest.x &&
         mousePos.x <= (this.player_button_rect_guest.x + this.player_button_rect_guest.w) &&
         mousePos.y >= this.player_button_rect_guest.y &&
         mousePos.y <= (this.player_button_rect_guest.y + this.player_button_rect_guest.h));
     },
+    //判断点击位置是否为"开始游戏"按钮
     isStartBtnPath(mousePos){
       return (mousePos.x >= this.player_button_rect_host.x &&
         mousePos.x <= (this.player_button_rect_host.x + this.player_button_rect_host.w) &&
