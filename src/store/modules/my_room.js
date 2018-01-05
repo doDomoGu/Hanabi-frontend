@@ -13,6 +13,7 @@ const state = {
     username:null,
     name:null
   },
+  is_ready:false
 };
 
 const actions = {
@@ -73,13 +74,20 @@ const actions = {
     });
   },
   GetRoomInfo({commit}){
+    let _param = {};
+    if(this.getters['my_room/host_player'].id<0){
+      _param.forceUpdate = true;
+    }
+
     return new Promise((resolve, reject) => {
       axios.post(
-        '/my-room/get-info'+'?access_token='+this.getters['auth/token']
+        '/my-room/get-info'+'?access_token='+this.getters['auth/token'],_param
       )
       .then((res) => {
         if(res.data.success){
-          commit('SetRoomPlayer',res.data.data);
+          if(!res.data.data.no_update) {
+            commit('SetRoomPlayer', res.data.data);
+          }
         }else{
           commit('ClearRoomPlayer');
         }
@@ -118,6 +126,7 @@ const getters = {
   is_host:state=>state.is_host,
   host_player:state=>state.host_player,
   guest_player:state=>state.guest_player,
+  is_ready:state=>state.is_ready
 };
 
 const mutations = {
@@ -130,6 +139,7 @@ const mutations = {
   SetRoomPlayer(state, data){
     state.host_player = data.host_player;
     state.guest_player = data.guest_player;
+    state.is_ready = data.is_ready;
   },
   ClearIsHost(state){
     state.is_host = false;
@@ -148,6 +158,7 @@ const mutations = {
       username:null,
       name:null
     };
+    state.is_ready = false;
   }
 };
 

@@ -46,7 +46,7 @@ export default {
     this.player_button_disable_text_color = "#626262"; //玩家按钮(禁用)的文本色
 
     this.exit_btn_color          = "#dc0c22"   //退出按钮颜色
-    this.exit_btn_touch_color    = "#359126"   //退出按钮颜色(触摸时)
+    this.exit_btn_touch_color    = "#8d0917"   //退出按钮颜色(触摸时)
 
     this.radius = 10 * this.ratio;            //矩形圆角半径
 
@@ -142,7 +142,7 @@ export default {
       let mousePos = that.getMousePos(evt);
       writeMessage("鼠标指针坐标：" + mousePos.x + "," + mousePos.y);
        if(that.isExitBtnPath(mousePos)){
-         /*that.ctx.fillStyle = that.exit_btn_touch_color;
+         that.ctx.fillStyle = that.exit_btn_touch_color;
          that.drawRoundedRect(
            {
              x: that.exit_btn_x,
@@ -152,12 +152,19 @@ export default {
            },
            that.radius,
            that.ctx
-         );*/
-         that.exit();
+         );
+         that.ctx.font = '40px Arial';
+         that.ctx.fillStyle = '#FFFFFF';
+         that.ctx.textAlign="center";
+         that.ctx.fillText('退出房间',that.canvas.width / 2, that.exit_btn_y + that.exit_btn_text_y);
+         setTimeout(function(){
+           that.exit();
+         },200)
+
          //that.exit();
        }else if(that.isReadyBtnPath(mousePos) && !that.is_host){
          that.doReady();
-       }else if(that.isStartBtnPath(mousePos) && that.is_host && that.guest_player.is_ready){
+       }else if(that.isStartBtnPath(mousePos) && that.is_host && that.is_ready){
          that.startGame();
        }
     },false);
@@ -177,7 +184,7 @@ export default {
 
       this.$store.dispatch('common/SetTitle2','房间'+this.$store.getters['my_room/room_id']);
       this.$store.dispatch('my_room/GetRoomInfo');
-
+      this.drawPlayerButton(); 
       this.intervalid1 = setInterval(()=>{
         this.$store.dispatch('my_room/GetRoomInfo');
         this.$store.dispatch('my_game/IsInGame').then(()=>{
@@ -202,11 +209,19 @@ export default {
         if(val.name!==oldVal.name){
           this.drawPlayerInfo(val,false);
         }
-        if(val.is_ready!==oldVal.is_ready){
+        /*if(val.is_ready!==oldVal.is_ready){
           this.drawPlayerButton(val.is_ready)
-        }
+        }*/
       }
     },
+    'is_ready':{
+      handler:function(val,oldVal) {
+        console.log(val,oldVal);
+        if (val !== oldVal) {
+          this.drawPlayerButton(val)
+        }
+      }
+    }
   },
   beforeDestroy () {
     clearInterval(this.intervalid1)
@@ -220,6 +235,9 @@ export default {
     },
     guest_player:function(){
       return this.$store.getters['my_room/guest_player'];
+    },
+    is_ready:function(){
+      return this.$store.getters['my_room/is_ready'];
     }
   },
   methods: {
