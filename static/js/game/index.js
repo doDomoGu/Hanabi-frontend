@@ -1,5 +1,7 @@
 import { MessageBox,Toast } from 'mint-ui'
 import  XDialog from 'vux/src/components/x-dialog'
+import MyCanvas from '../MyCanvas'
+
 export default {
   name: 'game',
   components: {
@@ -17,7 +19,19 @@ export default {
     }
   },
   mounted: function(){
+    let that = this;
+    //console.log(window);
+    /* 获得canvas */
+    this.canvas = document.querySelector('canvas');
+    this.ctx = this.canvas.getContext('2d');
 
+    this.ratio = MyCanvas.getPixelRatio(this.ctx);
+
+    /* 设置canvas宽度高度，铺满全屏 */
+    this.canvas.width = window.innerWidth * this.ratio ;
+    this.canvas.height = (window.innerHeight - 40) * this.ratio;
+    this.ctx.fillStyle = "#dedede"; //屏幕背景色
+    this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
   },
   created: function(){
     this.$store.dispatch('my_game/IsInGame').then(()=>{
