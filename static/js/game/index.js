@@ -32,6 +32,44 @@ export default {
     this.canvas.height = (window.innerHeight - 40) * this.ratio;
     this.ctx.fillStyle = "#dedede"; //屏幕背景色
     this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+
+
+    /* 常量 */
+    this.radius = 10 * this.ratio;            //矩形圆角半径
+
+    this.player_area_bg_color = "#5fc0f3"; //房主玩家区域的背景色
+    this.player_area_x        = 0;  //玩家区域x偏移量(相对整个画布)
+    this.player_area_host_y   = 0  * this.ratio;  //房主玩家区域y偏移量(相对整个画布)
+    this.player_area_guest_y  = 320 * this.ratio;  //访客玩家区域y偏移量(相对整个画布)
+    this.player_area_height   = 150 * this.ratio;  //玩家区域的高度
+    this.player_area_width    = this.canvas.width;    //玩家区域的宽度
+
+    this.player_info_bg_color   = "#ccf0f1"; //玩家信息的背景色
+    this.player_info_text_color = "#283085"; //玩家信息的文本色
+
+    this.player_hands_colors = ['#cdcdcd','#4f82c3','#c3c30d','#c33b00','#3ac34b'];  //手牌颜色
+
+
+
+    this.table_area_bg_color = '';
+
+
+
+
+
+    /* 绘图 */
+
+    //绘制玩家1和玩家2区域
+    this.ctx.fillStyle = this.player_area_bg_color;
+    this.ctx.fillRect(this.player_area_x,this.player_area_host_y,this.player_area_width,this.player_area_height);
+    this.ctx.fillRect(this.player_area_x,this.player_area_guest_y,this.player_area_width,this.player_area_height);
+
+
+
+    //绘制桌面
+
+
+
   },
   created: function(){
     this.$store.dispatch('my_game/IsInGame').then(()=>{
@@ -108,12 +146,122 @@ export default {
       return this.$store.getters['my_game/log_list2'];
     }
   },
-  /*watch:{
-    log_list(){
-      document.getElementById('log-list').scrollTop(document.getElementById('log-list').clientHeight)
-    }
-  },*/
+  watch:{
+    'host_player':{
+      handler:function(val,oldVal){
+        if(val.name!==oldVal.name){
+          this.drawPlayerInfo(val,true);
+        }
+      }
+    },
+    'guest_player':{
+      handler:function(val,oldVal){
+        if(val.name!==oldVal.name){
+          this.drawPlayerInfo(val,false);
+        }
+      }
+    },
+    'host_hands':{
+      handler:function(val,oldVal){
+        //TODO
+        if(val.length!==oldVal.length){
+          this.drawHands(val,true);
+        }
+      }
+    },
+    'guest_hands':{
+      handler:function(val,oldVal){
+        if(val.length!==oldVal.length){
+          this.drawHands(val,false);
+        }
+      }
+    },
+  },
   methods: {
+    drawPlayerInfo(info,is_host){
+      let rect_y_offset,text_y_offset;
+      if(is_host){
+        rect_y_offset = this.player_area_host_y + 20 * this.ratio;
+        text_y_offset = this.player_area_host_y + 40 * this.ratio;
+      }else{
+        rect_y_offset = this.player_area_guest_y + 20 * this.ratio;
+        text_y_offset = this.player_area_guest_y + 40 * this.ratio;
+      }
+      let rect = {
+        x: this.player_area_x + 20 * this.ratio,
+        y: rect_y_offset,
+        w: this.player_area_width - 40 * this.ratio,
+        h: 30 * this.ratio
+      };
+      this.ctx.fillStyle = this.player_info_bg_color;
+
+      MyCanvas.drawRoundedRect(rect,this.radius, this.ctx);
+      this.ctx.font = "36px Microsoft JhengHei";
+      this.ctx.fillStyle = this.player_info_text_color;
+      this.ctx.textAlign="left";
+      this.ctx.fillText((is_host?'房主':'玩家')+' : '+info.name+(this.is_host===is_host?' (你)':''), this.player_area_x + 40 * this.ratio, text_y_offset);
+    },
+    drawHands(cards,is_host){
+      let that = this;
+      let drawHandOne = function(rect,is_visible,color=false,num=false){
+        if(is_visible){
+
+          that.ctx.fillStyle = that.player_hands_colors[color];
+        }else{
+          that.ctx.fillStyle = '#8f8f8b';
+        }
+        MyCanvas.drawRoundedRect(rect,5 * that.ratio,that.ctx);
+        that.ctx.strokeColor = '#000';
+        that.ctx.stroke();
+
+      }
+      let x_offset = 20 * this.ratio;
+      let y_offset;
+      if(is_host){
+        y_offset = this.player_area_host_y + 60 * this.ratio;
+      }else{
+        y_offset = this.player_area_guest_y + 60 * this.ratio;
+      }
+      let w = 50 * this.ratio;
+      let h = 80 * this.ratio;
+      let pad = 20 * this.ratio;
+
+
+      for(let c in cards){
+        let rect = {
+          x:x_offset + (w+pad) * c,
+          y:y_offset,
+          w:w,
+          h:h
+        }
+        //is_visible //是你的牌  牌面不可见
+        drawHandOne(rect,this.is_host !== is_host,cards[c].color);
+      }
+
+
+      return true;
+      let rect_y_offset,text_y_offset;
+      if(is_host){
+        rect_y_offset = this.player_area_host_y + 20 * this.ratio;
+        text_y_offset = this.player_area_host_y + 40 * this.ratio;
+      }else{
+        rect_y_offset = this.player_area_guest_y + 20 * this.ratio;
+        text_y_offset = this.player_area_guest_y + 40 * this.ratio;
+      }
+      let rect = {
+        x: this.player_area_x + 20 * this.ratio,
+        y: rect_y_offset,
+        w: this.player_area_width - 40 * this.ratio,
+        h: 30 * this.ratio
+      };
+      this.ctx.fillStyle = this.player_info_bg_color;
+
+      MyCanvas.drawRoundedRect(rect,this.radius, this.ctx);
+      this.ctx.font = "36px Microsoft JhengHei";
+      this.ctx.fillStyle = this.player_info_text_color;
+      this.ctx.textAlign="left";
+      this.ctx.fillText((is_host?'房主':'玩家')+' : '+info.name+(this.is_host===is_host?' (你)':''), this.player_area_x + 40 * this.ratio, text_y_offset);
+    },
     getGameInfo(){
       this.$store.dispatch('my_game/GetGameInfo');
     },
