@@ -47,7 +47,12 @@ export default {
     this.player_info_bg_color   = "#ccf0f1"; //玩家信息的背景色
     this.player_info_text_color = "#283085"; //玩家信息的文本色
 
-    this.player_hands_colors = ['#cdcdcd','#4f82c3','#c3c30d','#c33b00','#3ac34b'];  //手牌颜色
+    this.player_hands_colors = [
+      '#f2f2f2',
+      '#4f82c3',
+      '#c3c30d',
+      '#c33b00',
+      '#3ac34b'];  //手牌颜色
 
 
 
@@ -205,7 +210,6 @@ export default {
       let that = this;
       let drawHandOne = function(rect,is_visible,color=false,num=false){
         if(is_visible){
-
           that.ctx.fillStyle = that.player_hands_colors[color];
         }else{
           that.ctx.fillStyle = '#8f8f8b';
@@ -214,6 +218,12 @@ export default {
         that.ctx.strokeColor = '#000';
         that.ctx.stroke();
 
+        if(is_visible){
+          that.ctx.font = "60px Microsoft JhengHei";
+          that.ctx.fillStyle = that.player_info_text_color;
+          that.ctx.textAlign="left";
+          that.ctx.fillText(num, rect.x+16*that.ratio,rect.y+50*that.ratio);
+        }
       }
       let x_offset = 20 * this.ratio;
       let y_offset;
@@ -235,7 +245,7 @@ export default {
           h:h
         }
         //is_visible //是你的牌  牌面不可见
-        drawHandOne(rect,this.is_host !== is_host,cards[c].color);
+        drawHandOne(rect,this.is_host !== is_host,cards[c].color,cards[c].num);
       }
 
 
