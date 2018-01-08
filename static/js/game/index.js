@@ -35,57 +35,97 @@ export default {
 
 
     /* 常量 */
+    //玩家区域 player_area
+    //玩家信息 player_info (在player_area内部)
+    //玩家信息文字  player_info_text
+    //桌面区域 table_area
+
+
+    let player_info_x_pad    = 20 * this.ratio; //玩家信息相对玩家区域的左右留白
+    let player_info_y_pad    = 10 * this.ratio; //玩家信息相对玩家区域的上留白
+    let player_info_text_pad = 20 * this.ratio; //玩家信息文字相对玩家信息的留白
+
+
     this.radius = 4 * this.ratio;                  //矩形圆角半径
 
-    //玩家区域
-    this.player_area_bg_color = "#5fc0f3";          //玩家区域的背景色
-    this.player_area_x        = 0;                  //玩家区域x偏移量
-    this.player_area_host_y   = 0;    //(房主)玩家区域y偏移量
-    this.player_area_guest_y  = 320 * this.ratio;   //(访客)玩家区域y偏移量
-    this.player_area_w        = this.canvas.width;  //玩家区域的宽度
-    this.player_area_h        = 150 * this.ratio;   //玩家区域的高度
+    //区块的宽高(尺寸)
+    this.player_area_w    = this.canvas.width;  //玩家区域的宽度
+    this.player_area_h    = 150 * this.ratio;   //玩家区域的高度
 
-    this.player_info_x        = this.player_area_x       + 20 * this.ratio; //玩家信息x偏移量
-    this.player_info_host_y   = this.player_area_host_y  + 10 * this.ratio; //(房主)玩家信息y偏移量
-    this.player_info_guest_y  = this.player_area_guest_y + 10 * this.ratio; //(访客)玩家信息y偏移量
-    this.player_info_w        = this.player_area_w       - 40 * this.ratio; //玩家信息的宽度
-    this.player_info_h        = 30 * this.ratio;                            //玩家信息的高度
+    this.player_info_w    = this.player_area_w - player_info_x_pad * 2; //玩家信息的宽度
+    this.player_info_h    = 30 * this.ratio;
 
-    this.player_info_text_x        = this.player_info_x       + 20 * this.ratio; //玩家信息内文字x偏移量
-    this.player_info_text_host_y   = this.player_info_host_y  + 20 * this.ratio; //(房主)玩家信息内文字y偏移量
-    this.player_info_text_guest_y  = this.player_info_guest_y + 20 * this.ratio; //(访客)玩家信息内文字y偏移量
+    this.player_hands_w   = 50 * this.ratio;
+    this.player_hands_h   = 80 * this.ratio;
 
+    this.table_area_h    = 170 * this.ratio;  //玩家区域的高度
+    this.table_area_w    = this.canvas.width;    //玩家区域的宽度
+
+    //颜色
+    this.player_area_bg_color   = "#5fc0f3";        //玩家区域的背景色
     this.player_info_bg_color   = "#ccf0f1";        //玩家信息的背景色
     this.player_info_text_color = "#283085";        //玩家信息的文本色
+    this.player_hands_colors    = [                 //手牌牌面背景色
+      '#f2f2f2',  //白
+      '#4f82c3',  //蓝
+      '#c3c30d',  //黄
+      '#c33b00',  //红
+      '#3ac34b'   //绿
+    ];
+    this.player_hands_back_color   = "#8f8f8b";      //手牌背景背景色
+    this.player_hands_stroke_color = "#111111";      //手牌边框颜色
+    this.table_area_bg_color       = "#f3ca90";      //桌面区域的背景色
+
+    //xy位置偏移量
+    this.player_area_x        = 0;                  //玩家区域x偏移量
+    this.player_area_host_y   = 0;                  //(房主)玩家区域y偏移量
+    this.player_area_guest_y  = this.player_area_h + this.table_area_h;   //(访客)玩家区域y偏移量
+
+    this.player_info_x        = this.player_area_x       + player_info_x_pad; //玩家信息x偏移量
+    this.player_info_host_y   = this.player_area_host_y  + player_info_y_pad; //(房主)玩家信息y偏移量
+    this.player_info_guest_y  = this.player_area_guest_y + player_info_y_pad; //(访客)玩家信息y偏移量
+                         //玩家信息的高度
+
+    this.player_info_text_x        = this.player_info_x       + player_info_text_pad; //玩家信息内文字x偏移量
+    this.player_info_text_host_y   = this.player_info_host_y  + player_info_text_pad; //(房主)玩家信息内文字y偏移量
+    this.player_info_text_guest_y  = this.player_info_guest_y + player_info_text_pad; //(访客)玩家信息内文字y偏移量
 
     this.player_hands_first_x   = 20 * this.ratio;                              //玩家手牌第一张x偏移量(相对玩家区域)
     this.player_hands_host_y    = this.player_info_host_y  + this.player_info_h + 20 * this.ratio;   //(房主)玩家手牌y偏移量
     this.player_hands_guest_y   = this.player_info_guest_y + this.player_info_h + 20 * this.ratio;   //(访客)玩家手牌y偏移量
-    this.player_hands_w         = 50 * this.ratio;
-    this.player_hands_h         = 80 * this.ratio;
+
     this.player_hands_pad       = 16 * this.ratio;
 
+    this.player_hands_host_rects = [];
+    for(let n=0;n<5;n++){
+       this.player_hands_host_rects.push(
+         {
+           x:this.player_hands_first_x + (this.player_hands_w + this.player_hands_pad) * n,
+           y:this.player_hands_host_y,
+           w:this.player_hands_w,
+           h:this.player_hands_h
+         }
+       )
+    }
 
-    this.player_hands_colors = [                    //手牌牌面背景色
-      '#f2f2f2',
-      '#4f82c3',
-      '#c3c30d',
-      '#c33b00',
-      '#3ac34b'
-    ];
-
-    this.player_hands_back_color   = "#8f8f8b";       //手牌背景背景色
-    this.player_hands_stroke_color = "#111111";       //手牌边框颜色
-
-
-
+    this.player_hands_guest_rects = [];
+    for(let n=0;n<5;n++){
+      this.player_hands_guest_rects.push(
+        {
+          x:this.player_hands_first_x + (this.player_hands_w + this.player_hands_pad) * n,
+          y:this.player_hands_guest_y,
+          w:this.player_hands_w,
+          h:this.player_hands_h
+        }
+      )
+    }
 
     //桌面区域
-    this.table_area_bg_color = "#f3ca90"; //房主玩家区域的背景色
-    this.table_area_x        = 0;  //玩家区域x偏移量(相对整个画布)
-    this.table_area_y   = 150  * this.ratio;  //房主玩家区域y偏移量(相对整个画布)
-    this.table_area_h   = 170 * this.ratio;  //玩家区域的高度
-    this.table_area_w    = this.canvas.width;    //玩家区域的宽度
+
+
+    this.table_area_x   = 0;  //玩家区域x偏移量(相对整个画布)
+    this.table_area_y   = this.player_area_h;  //房主玩家区域y偏移量(相对整个画布)
+
 
 
 
@@ -259,23 +299,15 @@ export default {
           that.ctx.fillText(num, rect.x + 16 * that.ratio,rect.y + 50 * that.ratio);
         }
       }
-
-      let x_offset = this.player_hands_first_x;
-      let y_offset;
+      let rects;
       if(is_host){
-        y_offset = this.player_hands_host_y;
+        rects = this.player_hands_host_rects;
       }else{
-        y_offset = this.player_hands_guest_y;
+        rects = this.player_hands_guest_rects;
       }
       for(let c in cards){
-        let rect = {
-          x:x_offset + ( this.player_hands_w + this.player_hands_pad) * c,
-          y:y_offset,
-          w:this.player_hands_w,
-          h:this.player_hands_h
-        }
         //is_visible //是你的牌  牌面不可见
-        drawHandOne(rect,this.is_host !== is_host,cards[c].color,cards[c].num);
+        drawHandOne(rects[c],this.is_host !== is_host,cards[c].color,cards[c].num);
       }
     },
     getGameInfo(){
