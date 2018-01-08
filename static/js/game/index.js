@@ -1,5 +1,5 @@
 import { MessageBox,Toast } from 'mint-ui'
-import  XDialog from 'vux/src/components/x-dialog'
+import XDialog from 'vux/src/components/x-dialog'
 import MyCanvas from '../MyCanvas'
 
 export default {
@@ -46,35 +46,35 @@ export default {
     let player_info_text_pad = 20 * this.ratio; //玩家信息文字相对玩家信息的留白
 
 
-    this.radius = 4 * this.ratio;                  //矩形圆角半径
+    this.radius = 4 * this.ratio;               //矩形圆角半径
 
     //区块的宽高(尺寸)
     this.player_area_w    = this.canvas.width;  //玩家区域的宽度
     this.player_area_h    = 150 * this.ratio;   //玩家区域的高度
 
     this.player_info_w    = this.player_area_w - player_info_x_pad * 2; //玩家信息的宽度
-    this.player_info_h    = 30 * this.ratio;
+    this.player_info_h    = 30 * this.ratio;    //玩家信息的高度
 
-    this.player_hands_w   = 50 * this.ratio;
-    this.player_hands_h   = 80 * this.ratio;
+    this.player_hands_w   = 50 * this.ratio;    //手牌宽度
+    this.player_hands_h   = 80 * this.ratio;    //手牌高度
 
-    this.table_area_h    = 170 * this.ratio;  //玩家区域的高度
-    this.table_area_w    = this.canvas.width;    //玩家区域的宽度
+    this.table_area_h    = 170 * this.ratio;    //桌面区域的高度
+    this.table_area_w    = this.canvas.width;   //桌面区域的宽度
 
     //颜色
-    this.player_area_bg_color   = "#5fc0f3";        //玩家区域的背景色
-    this.player_info_bg_color   = "#ccf0f1";        //玩家信息的背景色
-    this.player_info_text_color = "#283085";        //玩家信息的文本色
-    this.player_hands_colors    = [                 //手牌牌面背景色
+    this.player_area_bg_color   = "#5fc0f3";    //玩家区域的背景色
+    this.player_info_bg_color   = "#ccf0f1";    //玩家信息的背景色
+    this.player_info_text_color = "#283085";    //玩家信息的文本色
+    this.player_hands_colors    = [             //手牌牌面背景色
       '#f2f2f2',  //白
       '#4f82c3',  //蓝
       '#c3c30d',  //黄
       '#c33b00',  //红
       '#3ac34b'   //绿
     ];
-    this.player_hands_back_color   = "#8f8f8b";      //手牌背景背景色
-    this.player_hands_stroke_color = "#111111";      //手牌边框颜色
-    this.table_area_bg_color       = "#f3ca90";      //桌面区域的背景色
+    this.player_hands_back_color   = "#8f8f8b";     //手牌背景背景色
+    this.player_hands_stroke_color = "#111111";     //手牌边框颜色
+    this.table_area_bg_color       = "#f3ca90";     //桌面区域的背景色
 
     //xy位置偏移量
     this.player_area_x        = 0;                  //玩家区域x偏移量
@@ -94,9 +94,9 @@ export default {
     this.player_hands_host_y    = this.player_info_host_y  + this.player_info_h + 20 * this.ratio;   //(房主)玩家手牌y偏移量
     this.player_hands_guest_y   = this.player_info_guest_y + this.player_info_h + 20 * this.ratio;   //(访客)玩家手牌y偏移量
 
-    this.player_hands_pad       = 16 * this.ratio;
+    this.player_hands_pad       = 16 * this.ratio;     //手牌之间的留白距离
 
-    this.player_hands_host_rects = [];
+    this.player_hands_host_rects = [];  //(房主)玩家的全部手牌路径信息
     for(let n=0;n<5;n++){
        this.player_hands_host_rects.push(
          {
@@ -108,7 +108,7 @@ export default {
        )
     }
 
-    this.player_hands_guest_rects = [];
+    this.player_hands_guest_rects = [];  //(访客)玩家的全部手牌路径信息
     for(let n=0;n<5;n++){
       this.player_hands_guest_rects.push(
         {
@@ -121,8 +121,6 @@ export default {
     }
 
     //桌面区域
-
-
     this.table_area_x   = 0;  //玩家区域x偏移量(相对整个画布)
     this.table_area_y   = this.player_area_h;  //房主玩家区域y偏移量(相对整个画布)
 
@@ -148,6 +146,26 @@ export default {
     this.ctx.fillRect(this.table_area_x,this.table_area_y,this.table_area_w,this.table_area_h);
 
 
+
+
+    /* 点击事件 */
+    this.canvas.addEventListener("click", function(evt){
+      //console.log(evt); return true;
+      //evt = evt.changedTouches[0]; //touchend
+      //evt = evt.touches[0];   //touchstart
+      let mousePos = MyCanvas.getMousePos(that.canvas,evt,that.ratio);
+      //writeMessage("鼠标指针坐标：" + mousePos.x + "," + mousePos.y);
+      let host_hands_ord = that.isHostHandsPath(mousePos) ;
+      let guest_hands_ord = that.isGuestHandsPath(mousePos) ;
+
+      if(host_hands_ord >-1){
+        that.showCardOperation(that.host_hands,that.host_hands[host_hands_ord],that.is_host?0:1)
+      }else if(guest_hands_ord >-1){
+        that.showCardOperation(that.guest_hands,that.guest_hands[guest_hands_ord],that.is_host?1:0)
+      }else{
+        console.log(1111);
+      }
+    },false);
   },
   created: function(){
     this.$store.dispatch('my_game/IsInGame').then(()=>{
@@ -297,6 +315,11 @@ export default {
           that.ctx.fillStyle = that.player_info_text_color;
           that.ctx.textAlign="left";
           that.ctx.fillText(num, rect.x + 16 * that.ratio,rect.y + 50 * that.ratio);
+        }else{
+          that.ctx.font = "60px Microsoft JhengHei";
+          that.ctx.fillStyle = that.player_info_text_color;
+          that.ctx.textAlign="left";
+          that.ctx.fillText(num, rect.x + 16 * that.ratio,rect.y + 50 * that.ratio);
         }
       }
       let rects;
@@ -307,8 +330,37 @@ export default {
       }
       for(let c in cards){
         //is_visible //是你的牌  牌面不可见
-        drawHandOne(rects[c],this.is_host !== is_host,cards[c].color,cards[c].num);
+        if(this.is_host !== is_host){
+          drawHandOne(rects[c],true,cards[c].color,cards[c].num);
+        }else{
+          drawHandOne(rects[c],false,cards[c].color,parseInt(c)+1);
+        }
+
       }
+    },
+    isHostHandsPath(mousePos){
+      let ord = -1;
+      for(let i = 0; i < 5; i++){
+        if(ord === -1 && this.isInPath(mousePos,this.player_hands_host_rects[i])){
+          ord = i;
+        }
+      }
+      return ord;
+    },
+    isGuestHandsPath(mousePos){
+      let ord = -1;
+      for(let i = 0; i < 5; i++){
+        if(ord === -1 && this.isInPath(mousePos,this.player_hands_guest_rects[i])){
+          ord = i;
+        }
+      }
+      return ord;
+    },
+    isInPath(mousePos,rect){
+      return  mousePos.x >= rect.x &&
+        mousePos.x <= (rect.x + rect.w) &&
+        mousePos.y >= rect.y &&
+        mousePos.y <= (rect.y + rect.h);
     },
     getGameInfo(){
       this.$store.dispatch('my_game/GetGameInfo');
@@ -318,6 +370,9 @@ export default {
     },
     showCardOperation(cards,card,type){
       this.clearSelect();
+      console.log(cards);
+      console.log(card);
+      console.log(type);
       //cards所有手牌
       //card选中的手牌
       //type 0:自己的手牌 1:对手的手牌
