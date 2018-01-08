@@ -129,9 +129,11 @@ export default {
     this.table_area_x   = 0;                    //桌面区域x偏移量
     this.table_area_y   = this.player_area_h;   //桌面区域y偏移量
 
-    this.table_library_x   = this.table_area_x + table_area_x_pad;  //桌面区域x偏移量
-    this.table_library_y   = this.table_area_y + table_area_y_pad;   //桌面区域y偏移量
+    this.table_library_x   = this.table_area_x + table_area_x_pad;  //牌库区域x偏移量
+    this.table_library_y   = this.table_area_y + table_area_y_pad;  //牌库区域y偏移量
 
+    this.table_num_x   = this.table_library_x + this.table_library_w + 10 * this.ratio;  //牌库区域x偏移量
+    this.table_num_y   = this.table_area_y + table_area_y_pad;  //牌库区域y偏移量
 
 
 
@@ -291,6 +293,28 @@ export default {
         if(val!==oldVal){
           this.drawLibraryCardsNum(val);
         }
+
+      }
+    },
+    'cue_num':{
+      handler:function(val,oldVal){
+        if(val!==oldVal){
+          this.drawCueNum(val);
+        }
+      }
+    },
+    'chance_num':{
+      handler:function(val,oldVal){
+        if(val!==oldVal){
+          this.drawChanceNum(val);
+        }
+      }
+    },
+    'score':{
+      handler:function(val,oldVal){
+        if(val!==oldVal){
+          this.drawScore(val);
+        }
       }
     },
   },
@@ -366,6 +390,27 @@ export default {
       that.ctx.textAlign="left";
       that.ctx.fillText("剩余", that.table_library_x + 6 * that.ratio,that.table_library_y + 40 * that.ratio);
       that.ctx.fillText(num+"张", that.table_library_x + 4 * that.ratio,that.table_library_y + 60 * that.ratio);
+    },
+    drawCueNum(num){
+      let that = this;
+      that.ctx.font = "30px Microsoft JhengHei";
+      that.ctx.fillStyle = that.player_info_text_color;
+      that.ctx.textAlign="left";
+      that.ctx.fillText("提示:" + num, that.table_num_x,that.table_num_y + 30 * that.ratio);
+    },
+    drawChanceNum(num){
+      let that = this;
+      that.ctx.font = "30px Microsoft JhengHei";
+      that.ctx.fillStyle = that.player_info_text_color;
+      that.ctx.textAlign="left";
+      that.ctx.fillText("机会:" + num, that.table_num_x,that.table_num_y + 50 * that.ratio);
+    },
+    drawScore(score){
+      let that = this;
+      that.ctx.font = "30px Microsoft JhengHei";
+      that.ctx.fillStyle = that.player_info_text_color;
+      that.ctx.textAlign="left";
+      that.ctx.fillText("分数:" + score, that.table_num_x,that.table_num_y + 70 * that.ratio);
     },
     isHostHandsPath(mousePos){
       let ord = -1;
