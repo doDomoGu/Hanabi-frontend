@@ -46,8 +46,8 @@ export default {
     this.player_area_h        = 150 * this.ratio;   //玩家区域的高度
 
     this.player_info_x        = this.player_area_x       + 20 * this.ratio; //玩家信息x偏移量
-    this.player_info_host_y   = this.player_area_host_y  + 20 * this.ratio; //(房主)玩家信息y偏移量
-    this.player_info_guest_y  = this.player_area_guest_y + 20 * this.ratio; //(访客)玩家信息y偏移量
+    this.player_info_host_y   = this.player_area_host_y  + 10 * this.ratio; //(房主)玩家信息y偏移量
+    this.player_info_guest_y  = this.player_area_guest_y + 10 * this.ratio; //(访客)玩家信息y偏移量
     this.player_info_w        = this.player_area_w       - 40 * this.ratio; //玩家信息的宽度
     this.player_info_h        = 30 * this.ratio;                            //玩家信息的高度
 
@@ -55,13 +55,15 @@ export default {
     this.player_info_text_host_y   = this.player_info_host_y  + 20 * this.ratio; //(房主)玩家信息内文字y偏移量
     this.player_info_text_guest_y  = this.player_info_guest_y + 20 * this.ratio; //(访客)玩家信息内文字y偏移量
 
-
-
     this.player_info_bg_color   = "#ccf0f1";        //玩家信息的背景色
     this.player_info_text_color = "#283085";        //玩家信息的文本色
 
-    this.player_hands_first_x   = 20 * this.ratio;    //玩家手牌第一张x偏移量(相对玩家区域)
-    this.player_hands_y         = 20 * this.ratio;    //玩家手牌y偏移量(相对玩家信息)
+    this.player_hands_first_x   = 20 * this.ratio;                              //玩家手牌第一张x偏移量(相对玩家区域)
+    this.player_hands_host_y    = this.player_info_host_y  + this.player_info_h + 20 * this.ratio;   //(房主)玩家手牌y偏移量
+    this.player_hands_guest_y   = this.player_info_guest_y + this.player_info_h + 20 * this.ratio;   //(访客)玩家手牌y偏移量
+    this.player_hands_w         = 50 * this.ratio;
+    this.player_hands_h         = 80 * this.ratio;
+    this.player_hands_pad       = 16 * this.ratio;
 
 
     this.player_hands_colors = [                    //手牌牌面背景色
@@ -239,13 +241,13 @@ export default {
     },
     drawHands(cards,is_host){
       let that = this;
-      let drawHandOne = function(rect,is_visible,color=false,num=false){
+      let drawHandOne = function(rect, is_visible, color=false, num=false){
         if(is_visible){
           that.ctx.fillStyle = that.player_hands_colors[color];
         }else{
           that.ctx.fillStyle = that.player_hands_back_color;
         }
-        MyCanvas.drawRoundedRect(rect,5 * that.ratio,that.ctx);
+        MyCanvas.drawRoundedRect(rect, that.radius, that.ctx);
         //that.ctx.lineWidth = 1 * that.ratio;
         that.ctx.strokeStyle = that.player_hands_stroke_color;
         that.ctx.stroke();
@@ -258,24 +260,19 @@ export default {
         }
       }
 
-      let x_offset = 20 * this.ratio;
+      let x_offset = this.player_hands_first_x;
       let y_offset;
       if(is_host){
-        y_offset = this.player_area_host_y + 60 * this.ratio;
+        y_offset = this.player_hands_host_y;
       }else{
-        y_offset = this.player_area_guest_y + 60 * this.ratio;
+        y_offset = this.player_hands_guest_y;
       }
-      let w = 50 * this.ratio;
-      let h = 80 * this.ratio;
-      let pad = 20 * this.ratio;
-
-
       for(let c in cards){
         let rect = {
-          x:x_offset + (w+pad) * c,
+          x:x_offset + ( this.player_hands_w + this.player_hands_pad) * c,
           y:y_offset,
-          w:w,
-          h:h
+          w:this.player_hands_w,
+          h:this.player_hands_h
         }
         //is_visible //是你的牌  牌面不可见
         drawHandOne(rect,this.is_host !== is_host,cards[c].color,cards[c].num);
