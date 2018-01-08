@@ -41,10 +41,12 @@ export default {
     //桌面区域 table_area
 
 
-    let player_info_x_pad    = 20 * this.ratio; //玩家信息相对玩家区域的左右留白
-    let player_info_y_pad    = 10 * this.ratio; //玩家信息相对玩家区域的上留白
-    let player_info_text_pad = 20 * this.ratio; //玩家信息文字相对玩家信息的留白
+    let player_area_x_pad    = 20 * this.ratio; //玩家区域内的左右留白
+    let player_area_y_pad    = 10 * this.ratio; //玩家区域内的上留白
+    let player_info_pad = 20 * this.ratio; //玩家信息文字相对玩家信息的留白
 
+    let table_area_x_pad =  20 * this.ratio; //桌面区域内的左右留白
+    let table_area_y_pad =  10 * this.ratio; //桌面区域内的上留白
 
     this.radius = 4 * this.ratio;               //矩形圆角半径
 
@@ -52,16 +54,19 @@ export default {
     this.player_area_w    = this.canvas.width;  //玩家区域的宽度
     this.player_area_h    = 150 * this.ratio;   //玩家区域的高度
 
-    this.player_info_w    = this.player_area_w - player_info_x_pad * 2; //玩家信息的宽度
+    this.player_info_w    = this.player_area_w - player_area_x_pad * 2; //玩家信息的宽度
     this.player_info_h    = 30 * this.ratio;    //玩家信息的高度
 
     this.player_hands_w   = 50 * this.ratio;    //手牌宽度
     this.player_hands_h   = 80 * this.ratio;    //手牌高度
 
-    this.table_area_h    = 170 * this.ratio;    //桌面区域的高度
-    this.table_area_w    = this.canvas.width;   //桌面区域的宽度
+    this.table_area_w     = this.canvas.width;  //桌面区域的宽度
+    this.table_area_h     = 100 * this.ratio;   //桌面区域的高度
 
-    //颜色
+    this.table_library_w  = 50 * this.ratio;    //桌面牌库的宽度
+    this.table_library_h  = 80 * this.ratio;    //桌面牌库的高度
+
+    /* 颜色 */
     this.player_area_bg_color   = "#5fc0f3";    //玩家区域的背景色
     this.player_info_bg_color   = "#ccf0f1";    //玩家信息的背景色
     this.player_info_text_color = "#283085";    //玩家信息的文本色
@@ -75,20 +80,21 @@ export default {
     this.player_hands_back_color   = "#8f8f8b";     //手牌背景背景色
     this.player_hands_stroke_color = "#111111";     //手牌边框颜色
     this.table_area_bg_color       = "#f3ca90";     //桌面区域的背景色
+    this.table_library_bg_color       = this.player_hands_back_color;     //牌库的背景色
 
-    //xy位置偏移量
+    /* xy位置偏移量 */
     this.player_area_x        = 0;                  //玩家区域x偏移量
     this.player_area_host_y   = 0;                  //(房主)玩家区域y偏移量
     this.player_area_guest_y  = this.player_area_h + this.table_area_h;   //(访客)玩家区域y偏移量
 
-    this.player_info_x        = this.player_area_x       + player_info_x_pad; //玩家信息x偏移量
-    this.player_info_host_y   = this.player_area_host_y  + player_info_y_pad; //(房主)玩家信息y偏移量
-    this.player_info_guest_y  = this.player_area_guest_y + player_info_y_pad; //(访客)玩家信息y偏移量
+    this.player_info_x        = this.player_area_x       + player_area_x_pad; //玩家信息x偏移量
+    this.player_info_host_y   = this.player_area_host_y  + player_area_y_pad; //(房主)玩家信息y偏移量
+    this.player_info_guest_y  = this.player_area_guest_y + player_area_y_pad; //(访客)玩家信息y偏移量
                          //玩家信息的高度
 
-    this.player_info_text_x        = this.player_info_x       + player_info_text_pad; //玩家信息内文字x偏移量
-    this.player_info_text_host_y   = this.player_info_host_y  + player_info_text_pad; //(房主)玩家信息内文字y偏移量
-    this.player_info_text_guest_y  = this.player_info_guest_y + player_info_text_pad; //(访客)玩家信息内文字y偏移量
+    this.player_info_text_x        = this.player_info_x       + player_info_pad; //玩家信息内文字x偏移量
+    this.player_info_text_host_y   = this.player_info_host_y  + player_info_pad; //(房主)玩家信息内文字y偏移量
+    this.player_info_text_guest_y  = this.player_info_guest_y + player_info_pad; //(访客)玩家信息内文字y偏移量
 
     this.player_hands_first_x   = 20 * this.ratio;                              //玩家手牌第一张x偏移量(相对玩家区域)
     this.player_hands_host_y    = this.player_info_host_y  + this.player_info_h + 20 * this.ratio;   //(房主)玩家手牌y偏移量
@@ -120,11 +126,11 @@ export default {
       )
     }
 
-    //桌面区域
-    this.table_area_x   = 0;  //玩家区域x偏移量(相对整个画布)
-    this.table_area_y   = this.player_area_h;  //房主玩家区域y偏移量(相对整个画布)
+    this.table_area_x   = 0;                    //桌面区域x偏移量
+    this.table_area_y   = this.player_area_h;   //桌面区域y偏移量
 
-
+    this.table_library_x   = this.table_area_x + table_area_x_pad;  //桌面区域x偏移量
+    this.table_library_y   = this.table_area_y + table_area_y_pad;   //桌面区域y偏移量
 
 
 
@@ -142,10 +148,18 @@ export default {
     this.ctx.fillRect(this.table_area_x,this.table_area_y,this.table_area_w,this.table_area_h);
 
     //牌库
-    this.ctx.fillStyle = this.table_area_bg_color;
-    this.ctx.fillRect(this.table_area_x,this.table_area_y,this.table_area_w,this.table_area_h);
-
-
+    this.ctx.fillStyle = this.table_library_bg_color;
+    MyCanvas.drawRoundedRect(
+      {
+        x:this.table_library_x,
+        y:this.table_library_y,
+        w:this.table_library_w,
+        h:this.table_library_h
+      },
+      this.radius,
+      this.ctx
+    );
+    this.ctx.stroke();
 
 
     /* 点击事件 */
@@ -272,6 +286,13 @@ export default {
         }
       }
     },
+    'library_cards_num':{
+      handler:function(val,oldVal){
+        if(val!==oldVal){
+          this.drawLibraryCardsNum(val);
+        }
+      }
+    },
   },
   methods: {
     drawPlayerInfo(info,is_host){
@@ -337,6 +358,14 @@ export default {
         }
 
       }
+    },
+    drawLibraryCardsNum(num){
+      let that = this;
+      that.ctx.font = "40px Microsoft JhengHei";
+      that.ctx.fillStyle = that.player_info_text_color;
+      that.ctx.textAlign="left";
+      that.ctx.fillText("剩余", that.table_library_x + 6 * that.ratio,that.table_library_y + 40 * that.ratio);
+      that.ctx.fillText(num+"张", that.table_library_x + 4 * that.ratio,that.table_library_y + 60 * that.ratio);
     },
     isHostHandsPath(mousePos){
       let ord = -1;
