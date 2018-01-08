@@ -370,9 +370,6 @@ export default {
     },
     showCardOperation(cards,card,type){
       this.clearSelect();
-      console.log(cards);
-      console.log(card);
-      console.log(type);
       //cards所有手牌
       //card选中的手牌
       //type 0:自己的手牌 1:对手的手牌
