@@ -2,6 +2,7 @@
     <div id="game">
         <canvas id="canvas">
         </canvas>
+        <mt-button v-if="is_host" @click.native="endGame" size="large" class="game-end-btn" type="danger" style="position:absolute;bottom:0;z-index:9999;">结束游戏</mt-button>
         <x-dialog :show.sync="cardOperationShow" hide-on-blur :on-hide="clearSelect" class="">
             <div v-if="cardOperationType===1" class="opposite-card-operation">
                 <div class="selected-card-info">
