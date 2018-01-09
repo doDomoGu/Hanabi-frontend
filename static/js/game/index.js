@@ -57,17 +57,27 @@ export default {
     this.player_info_w    = this.player_area_w - player_area_x_pad * 2; //玩家信息的宽度
     this.player_info_h    = 30 * this.ratio;    //玩家信息的高度
 
+    let card_w = 50 * this.ratio;
+    let card_h = 80 * this.ratio;
+
+
     this.player_hands_w   = 50 * this.ratio;    //手牌宽度
     this.player_hands_h   = 80 * this.ratio;    //手牌高度
 
     this.table_area_w     = this.canvas.width;  //桌面区域的宽度
     this.table_area_h     = 100 * this.ratio;   //桌面区域的高度
 
-    this.table_library_w  = 50 * this.ratio;    //桌面牌库的宽度
-    this.table_library_h  = 80 * this.ratio;    //桌面牌库的高度
+    this.table_library_w  = card_w;    //桌面牌库的宽度
+    this.table_library_h  = card_h;    //桌面牌库的高度
 
     this.table_success_cards_w  = 20 * this.ratio;    //桌面成功的卡牌的宽度
     this.table_success_cards_h  = 40 * this.ratio;    //桌面成功的卡牌的高度
+
+    this.table_library_w  = card_w;    //桌面牌库的宽度
+    this.table_library_h  = card_h;    //桌面牌库的高度
+
+    this.table_discard_w  = card_w;    //桌面弃牌堆的宽度
+    this.table_discard_h  = card_h;    //桌面弃牌堆的高度
 
     /* 颜色 */
     this.player_area_bg_color   = "#5fc0f3";    //玩家区域的背景色
@@ -83,7 +93,8 @@ export default {
     this.player_hands_back_color   = "#8f8f8b";     //手牌背景背景色
     this.player_hands_stroke_color = "#111111";     //手牌边框颜色
     this.table_area_bg_color       = "#f3ca90";     //桌面区域的背景色
-    this.table_library_bg_color       = this.player_hands_back_color;     //牌库的背景色
+    this.table_library_bg_color       = this.player_hands_back_color;     //桌面牌库的背景色
+    this.table_discard_bg_color       = this.player_hands_back_color;     //桌面弃牌堆的背景色
 
     /* xy位置偏移量 */
     this.player_area_x        = 0;                  //玩家区域x偏移量
@@ -142,6 +153,9 @@ export default {
     this.table_success_cards_y   = this.table_area_y + table_area_y_pad;  //成功的卡牌区域y偏移量
     this.table_success_cards_pad  = 6 * this.ratio;  //成功的卡牌区域之间的留白
 
+    this.table_discard_x   = this.table_area_x + this.table_area_w - this.table_discard_w - 10 * this.ratio;  //弃牌堆x偏移量
+    this.table_discard_y   = this.table_area_y + table_area_y_pad;                            //弃牌堆y偏移量
+
 
     /* 绘图 */
 
@@ -163,6 +177,21 @@ export default {
         y:this.table_library_y,
         w:this.table_library_w,
         h:this.table_library_h
+      },
+      this.radius,
+      this.ctx
+    );
+    this.ctx.stroke();
+
+
+    //弃牌堆
+    this.ctx.fillStyle = this.table_discard_bg_color;
+    MyCanvas.drawRoundedRect(
+      {
+        x:this.table_discard_x,
+        y:this.table_discard_y,
+        w:this.table_discard_w,
+        h:this.table_discard_h
       },
       this.radius,
       this.ctx
@@ -302,6 +331,14 @@ export default {
 
       }
     },
+    'discard_cards_num':{
+      handler:function(val,oldVal){
+        if(val!==oldVal){
+          this.drawDiscardCardsNum(val);
+        }
+
+      }
+    },
     'cue_num':{
       handler:function(val,oldVal){
         if(val!==oldVal){
@@ -408,6 +445,14 @@ export default {
       that.ctx.textAlign="left";
       that.ctx.fillText("剩余", that.table_library_x + 6 * that.ratio,that.table_library_y + 40 * that.ratio);
       that.ctx.fillText(num+"张", that.table_library_x + 4 * that.ratio,that.table_library_y + 60 * that.ratio);
+    },
+    drawDiscardCardsNum(num){
+      let that = this;
+      that.ctx.font = "40px Microsoft JhengHei";
+      that.ctx.fillStyle = that.player_info_text_color;
+      that.ctx.textAlign="left";
+      that.ctx.fillText("弃牌", that.table_discard_x + 6 * that.ratio,that.table_discard_y + 40 * that.ratio);
+      that.ctx.fillText(num+"张", that.table_discard_x + 4 * that.ratio,that.table_discard_y + 60 * that.ratio);
     },
     drawCueNum(num){
       let that = this;
