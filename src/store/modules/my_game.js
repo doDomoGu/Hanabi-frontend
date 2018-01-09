@@ -6,7 +6,7 @@ const state = {
   host_hands:[],
   guest_hands:[],
   round_num:-1,
-  round_player_is_host:false,
+  round_player_is_host:-1,
   library_cards_num:-1,
   discard_cards_num:-1,
   cue_num:-1,

@@ -15,7 +15,7 @@ export default {
       cardOperationType:-1,
       cardSelectOrd:-1,
       cardSelectColor:-1,
-      cardSelectNum:-1,
+      cardSelectNum:-1
     }
   },
   mounted: function(){
@@ -65,6 +65,9 @@ export default {
 
     this.table_library_w  = 50 * this.ratio;    //桌面牌库的宽度
     this.table_library_h  = 80 * this.ratio;    //桌面牌库的高度
+
+    this.table_success_cards_w  = 20 * this.ratio;    //桌面成功的卡牌的宽度
+    this.table_success_cards_h  = 40 * this.ratio;    //桌面成功的卡牌的高度
 
     /* 颜色 */
     this.player_area_bg_color   = "#5fc0f3";    //玩家区域的背景色
@@ -135,6 +138,9 @@ export default {
     this.table_num_x   = this.table_library_x + this.table_library_w + 10 * this.ratio;  //牌库区域x偏移量
     this.table_num_y   = this.table_area_y + table_area_y_pad;  //牌库区域y偏移量
 
+    this.table_success_cards_x   = this.table_num_x + 50 * this.ratio;    //成功的卡牌区域x偏移量
+    this.table_success_cards_y   = this.table_area_y + table_area_y_pad;  //成功的卡牌区域y偏移量
+    this.table_success_cards_pad  = 6 * this.ratio;  //成功的卡牌区域之间的留白
 
 
     /* 绘图 */
@@ -188,7 +194,7 @@ export default {
 
       this.$store.dispatch(
         'common/SetTitle',
-        this.$store.getters['common/title_suffix']+' - '+(this.$store.getters['my_game/is_playing']>0?'游戏中':'错误')
+        this.$store.getters['common/title_suffix']+' - '+(this.$store.getters['my_game/is_playing']>0?'游戏中':'错误') + ' _ ('+this.$store.getters['auth/user_id']+')'
       );
       this.$store.dispatch('my_room/IsInRoom');
 
@@ -317,6 +323,18 @@ export default {
         }
       }
     },
+    'success_cards':{
+      handler:function(val,oldVal){
+        if(val!==oldVal){
+          this.drawSuccessCards(val);
+        }
+      }
+    },
+    'round_player_is_host':function(val,oldVal){
+      if(val!==oldVal){
+        this.drawRoundPlayerIsHost(val);
+      }
+    }
   },
   methods: {
     drawPlayerInfo(info,is_host){
@@ -359,7 +377,7 @@ export default {
           that.ctx.font = "60px Microsoft JhengHei";
           that.ctx.fillStyle = that.player_info_text_color;
           that.ctx.textAlign="left";
-          that.ctx.fillText(num, rect.x + 16 * that.ratio,rect.y + 50 * that.ratio);
+          that.ctx.fillText(that.numbers[num], rect.x + 16 * that.ratio,rect.y + 50 * that.ratio);
         }else{
           that.ctx.font = "60px Microsoft JhengHei";
           that.ctx.fillStyle = that.player_info_text_color;
@@ -411,6 +429,63 @@ export default {
       that.ctx.fillStyle = that.player_info_text_color;
       that.ctx.textAlign="left";
       that.ctx.fillText("分数:" + score, that.table_num_x,that.table_num_y + 70 * that.ratio);
+    },
+    drawSuccessCards(cards){
+      let that = this;
+      for(let c in cards){
+        let rect = {
+          x:this.table_success_cards_x + (this.table_success_cards_w + this.table_success_cards_pad) * c,
+          y:this.table_success_cards_y,
+          w:this.table_success_cards_w,
+          h:this.table_success_cards_h
+        }
+
+        that.ctx.fillStyle = that.player_hands_colors[c];
+        MyCanvas.drawRoundedRect(rect, that.radius, that.ctx);
+        //that.ctx.lineWidth = 1 * that.ratio;
+        that.ctx.strokeStyle = that.player_hands_stroke_color;
+        that.ctx.stroke();
+
+        that.ctx.font = "30px Microsoft JhengHei";
+        that.ctx.fillStyle = that.player_info_text_color;
+        that.ctx.textAlign="left";
+        that.ctx.fillText(cards[c], rect.x + 6 * that.ratio, rect.y + 20 * that.ratio);
+      }
+    },
+    drawRoundPlayerIsHost(is_host){
+      let x = this.player_info_x + this.player_info_w - 120 * this.ratio;
+      let w = 120 * this.ratio;
+      let h = this.player_info_h;
+
+      let rect_host = {
+        x:x,
+        y:this.player_info_host_y,
+        w:w,
+        h:h
+      }
+
+      let rect_guest = {
+        x:x,
+        y:this.player_info_guest_y,
+        w:w,
+        h:h
+      }
+
+      let rect;
+      if(is_host){
+        rect = rect_host;
+      }else{
+        rect = rect_guest;
+      }
+
+      this.ctx.fillStyle = this.player_info_bg_color;
+      MyCanvas.drawRoundedRect(rect_host,this.radius,this.ctx);
+      MyCanvas.drawRoundedRect(rect_guest,this.radius,this.ctx);
+
+      this.ctx.font = "26px Microsoft JhengHei";
+      this.ctx.fillStyle = this.player_info_text_color;
+      this.ctx.textAlign = "left";
+      this.ctx.fillText('(当前回合玩家)', rect.x, rect.y + 20 * this.ratio);
     },
     isHostHandsPath(mousePos){
       let ord = -1;
