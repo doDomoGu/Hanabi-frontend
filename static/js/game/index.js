@@ -79,6 +79,9 @@ export default {
     this.table_discard_w  = card_w;    //桌面弃牌堆的宽度
     this.table_discard_h  = card_h;    //桌面弃牌堆的高度
 
+    this.history_area_w   = this.canvas.width;   //游戏历史区域的高度
+    this.history_area_h   = 100 * this.ratio;    //游戏历史区域的高度
+
     /* 颜色 */
     this.player_area_bg_color   = "#5fc0f3";    //玩家区域的背景色
     this.player_info_bg_color   = "#ccf0f1";    //玩家信息的背景色
@@ -92,14 +95,17 @@ export default {
     ];
     this.player_hands_back_color   = "#8f8f8b";     //手牌背景背景色
     this.player_hands_stroke_color = "#111111";     //手牌边框颜色
+
     this.table_area_bg_color       = "#f3ca90";     //桌面区域的背景色
-    this.table_library_bg_color       = this.player_hands_back_color;     //桌面牌库的背景色
-    this.table_discard_bg_color       = this.player_hands_back_color;     //桌面弃牌堆的背景色
+    this.table_library_bg_color    = this.player_hands_back_color;     //桌面牌库的背景色
+    this.table_discard_bg_color    = this.player_hands_back_color;     //桌面弃牌堆的背景色
+
+    this.history_area_bg_color     = '#b55170';     //游戏历史区域的背景色
 
     /* xy位置偏移量 */
     this.player_area_x        = 0;                  //玩家区域x偏移量
     this.player_area_host_y   = 0;                  //(房主)玩家区域y偏移量
-    this.player_area_guest_y  = this.player_area_h + this.table_area_h;   //(访客)玩家区域y偏移量
+    this.player_area_guest_y  = this.player_area_h + this.table_area_h +this.history_area_h;   //(访客)玩家区域y偏移量
 
     this.player_info_x        = this.player_area_x       + player_area_x_pad; //玩家信息x偏移量
     this.player_info_host_y   = this.player_area_host_y  + player_area_y_pad; //(房主)玩家信息y偏移量
@@ -156,6 +162,9 @@ export default {
     this.table_discard_x   = this.table_area_x + this.table_area_w - this.table_discard_w - 10 * this.ratio;  //弃牌堆x偏移量
     this.table_discard_y   = this.table_area_y + table_area_y_pad;                            //弃牌堆y偏移量
 
+    this.history_area_x   = 0;                    //游戏历史区域x偏移量
+    this.history_area_y   = this.player_area_h + this.table_area_h;   //游戏历史区域y偏移量
+
 
     /* 绘图 */
 
@@ -197,6 +206,11 @@ export default {
       this.ctx
     );
     this.ctx.stroke();
+
+    //绘制游戏历史区域
+    this.ctx.fillStyle = this.history_area_bg_color;
+    this.ctx.fillRect(this.history_area_x,this.history_area_y,this.history_area_w,this.history_area_h);
+
 
 
     /* 点击事件 */

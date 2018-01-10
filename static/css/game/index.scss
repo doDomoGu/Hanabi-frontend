@@ -249,19 +249,30 @@
 
 .log-block {
     overflow:hidden;
-    background: #c6dcbc;
-    margin-bottom: 10px;
-    padding:10px;
-    border-radius: 6px;
+    top:320px;
+    position:absolute;
+    width: 100%;
     > .log-list {
-        border:1px solid #2c3e50;
-        background: #fefefe;
-        height:100px;
+        background: transparent;
         overflow: scroll;
         > li {
             list-style: none;
             padding-left:2px;
             font-size:12px;
         }
+    }
+}
+
+#log-list {
+    top:290px;
+    position:absolute;
+    background: transparent;
+    overflow:scroll;
+    height:100px;
+    color:#fefefe;
+    > li {
+        list-style: none;
+        padding:6px 20px 0;
+        font-size:12px;
     }
 }
