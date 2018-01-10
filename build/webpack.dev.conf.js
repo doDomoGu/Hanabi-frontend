@@ -13,6 +13,9 @@ let dev_config;
 if(process.env.host!=undefined && process.env.host == '100'){
   dev_config = require('../config/dev-100.env');
   config.dev.host = dev_config.host;
+}else if(process.env.host!=undefined && process.env.host == 'local'){
+  dev_config = require('../config/dev-local.env');
+  config.dev.host = dev_config.host;
 }else{
   dev_config = require('../config/dev.env');
 }
