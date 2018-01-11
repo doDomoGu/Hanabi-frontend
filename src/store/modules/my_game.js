@@ -57,25 +57,28 @@ const actions = {
         });
     });
   },
-  GetGameInfo({commit}){
-    let _param = {};
-    if(this.getters['my_game/round_num']<0){
-      _param.forceUpdate = true;
-    }
+  GetInfo({commit},param={}){
+    if(!param.hasOwnProperty('mode'))
+      param.mode = 'all';
     return new Promise((resolve, reject) => {
       axios.post(
-        '/my-game/get-info'+'?access_token='+this.getters['auth/token'],_param
+        '/my-game/get-info'+'?access_token='+this.getters['auth/token'],
+        param
       )
       .then((res) => {
-        if(res.data.success){
-          if(!res.data.data.no_update){
-            commit('SetGameInfo',res.data.data.game);
-            commit('SetCardInfo',res.data.data.card);
-            commit('SetLogInfo',res.data.data.log);
+        let _res = res.data;
+        if(_res.success){
+          if(!_res.data.no_update){
+            commit('SetGameIsPlaying');
+            if(param.mode ==='all') {
+              commit('SetGameInfo', _res.data.game);
+              commit('SetCardInfo', _res.data.card);
+              commit('SetLogInfo', _res.data.log);
+            }
           }
 
         }else{
-          //commit('ClearInfo');
+          commit('ClearInfo');
         }
 
         resolve(res.data);
@@ -85,7 +88,7 @@ const actions = {
       });
     });
   },
-  IsInGame({commit}){
+  /*IsInGame({commit}){
     return new Promise((resolve, reject) => {
       axios.post(
         '/my-game/is-in-game'+'?access_token='+this.getters['auth/token']
@@ -105,7 +108,7 @@ const actions = {
         reject(error);
       });
     });
-  },
+  },*/
   DoDiscard({commit},cardSelectOrd){
     return new Promise((resolve, reject) => {
       axios.post(

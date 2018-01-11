@@ -233,23 +233,19 @@ export default {
     },false);
   },
   created: function(){
-    this.$store.dispatch('my_game/IsInGame').then(()=>{
+    this.$store.dispatch('my_game/GetInfo',{mode:'simple',force:true}).then(()=>{
 
       this.$store.dispatch(
         'common/SetTitle',
         this.$store.getters['common/title_suffix']+' - '+(this.$store.getters['my_game/is_playing']>0?'游戏中':'错误') + ' _ ('+this.$store.getters['auth/user_id']+')'
       );
-      this.$store.dispatch('my_room/IsInRoom');
+      this.$store.dispatch('my_room/GetInfo',{force:true});
 
-      this.$store.dispatch('my_room/GetInfo');
-
-      this.getGameInfo();
+      this.$store.dispatch('my_game/GetInfo',{force:true});
 
       this.intervalid1 = setInterval(()=>{
         let _score = this.$store.getters['my_game/score']+'';
-        this.getGameInfo();
-
-        this.$store.dispatch('my_game/IsInGame').then(()=>{
+        this.$store.dispatch('my_game/GetInfo').then(()=>{
           if(!this.$store.getters['my_game/is_playing']){
             clearInterval(this.intervalid1)
 
@@ -264,6 +260,7 @@ export default {
     });
   },
   beforeDestroy () {
+    console.log(this);
     clearInterval(this.intervalid1)
   },
   computed : {
@@ -569,9 +566,6 @@ export default {
         mousePos.x <= (rect.x + rect.w) &&
         mousePos.y >= rect.y &&
         mousePos.y <= (rect.y + rect.h);
-    },
-    getGameInfo(){
-      this.$store.dispatch('my_game/GetGameInfo');
     },
     endGame(){
       this.$store.dispatch('my_game/End');
