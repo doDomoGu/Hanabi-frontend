@@ -127,7 +127,7 @@ export default {
       //evt = evt.changedTouches[0]; //touchend
       //evt = evt.touches[0];   //touchstart
       let mousePos = MyCanvas.getMousePos(that.canvas,evt,that.ratio);
-      writeMessage("鼠标指针坐标：" + mousePos.x + "," + mousePos.y);
+      //writeMessage("鼠标指针坐标：" + mousePos.x + "," + mousePos.y);
        if(that.isExitBtnPath(mousePos)){
          that.ctx.fillStyle = that.exit_btn_touch_color;
          MyCanvas.drawRoundedRect(
@@ -156,29 +156,27 @@ export default {
        }
     },false);
 
-    let writeMessage = function(message) {
+    /*let writeMessage = function(message) {
       that.ctx.clearRect(that.top_left_pad, 400 * that.ratio, that.top_width, 40 * that.ratio);
       that.ctx.font = "20px Microsoft JhengHei";
       that.ctx.fillStyle = "tomato";
       that.ctx.textAlign="left";
       that.ctx.fillText(message, 20 * that.ratio, 420 * that.ratio);
-    };
+    };*/
 
   },
   created: function(){
 
-    this.$store.dispatch('my_room/IsInRoom').then(()=>{
-
+    this.$store.dispatch('my_room/GetInfo',{force:true}).then(()=>{
       this.$store.dispatch('common/SetTitle2','房间'+this.$store.getters['my_room/room_id']);
-      this.$store.dispatch('my_room/GetRoomInfo');
       this.drawPlayerButton();
       this.intervalid1 = setInterval(()=>{
-        this.$store.dispatch('my_room/GetRoomInfo');
-        this.$store.dispatch('my_game/IsInGame').then(()=>{
+        this.$store.dispatch('my_room/GetInfo');
+        /*this.$store.dispatch('my_game/IsInGame').then(()=>{
           if(this.$store.getters['my_game/is_playing']){
             this.$router.push('/game');
           }
-        });
+        });*/
       },500);
 
     });
@@ -203,7 +201,6 @@ export default {
     },
     'is_ready':{
       handler:function(val,oldVal) {
-        console.log(val,oldVal);
         if (val !== oldVal) {
           this.drawPlayerButton(val)
         }
@@ -307,9 +304,12 @@ export default {
             this.$router.push('/');
           });
         }else{
-          return false;
+          //其他操作
         }
-      },()=>{});
+      },()=>{
+        //"取消"
+        //console.log('cancel')
+      });
     },
     doReady(){
       this.$store.dispatch('my_room/DoReady');

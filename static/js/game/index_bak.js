@@ -20,7 +20,7 @@ export default {
 
   },
   created: function(){
-    this.$store.dispatch('my_game/IsInGame').then(()=>{
+    this.$store.dispatch('my_game/IsInGame2').then(()=>{
 
       this.$store.dispatch(
         'common/SetTitle',
@@ -28,7 +28,7 @@ export default {
       );
       this.$store.dispatch('my_room/IsInRoom');
 
-      this.$store.dispatch('my_room/GetRoomInfo');
+      this.$store.dispatch('my_room/GetRoomInfo2');
 
       this.getGameInfo();
 
@@ -36,7 +36,7 @@ export default {
         let _score = this.$store.getters['my_game/score']+'';
         this.getGameInfo();
 
-        this.$store.dispatch('my_game/IsInGame').then(()=>{
+        this.$store.dispatch('my_game/IsInGame2').then(()=>{
           if(!this.$store.getters['my_game/is_playing']){
             clearInterval(this.intervalid1)
 

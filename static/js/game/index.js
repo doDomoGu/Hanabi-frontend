@@ -241,7 +241,7 @@ export default {
       );
       this.$store.dispatch('my_room/IsInRoom');
 
-      this.$store.dispatch('my_room/GetRoomInfo');
+      this.$store.dispatch('my_room/GetInfo');
 
       this.getGameInfo();
 

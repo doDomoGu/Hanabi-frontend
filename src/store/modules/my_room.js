@@ -26,9 +26,9 @@ const actions = {
         }
       )
       .then((res) => {
-        if(res.data.success){
+        /*if(res.data.success){
           commit('SetRoomId',room_id);
-        }
+        }*/
         resolve(res.data);
       })
       .catch(error => {
@@ -42,8 +42,8 @@ const actions = {
         '/my-room/exit'+'?access_token='+this.getters['auth/token']
       )
       .then((res) => {
-        if(res.data.success){
-        }
+        /*if(res.data.success){
+        }*/
         resolve(res.data);
       })
       .catch(error => {
@@ -51,13 +51,17 @@ const actions = {
       });
     });
   },
-  IsInRoom({commit}){
+  /*IsInRoom({commit}){
+    let _param = {};
+    if(this.getters['my_room/host_player'].id<0){
+      _param.forceUpdate = true;
+    }
+
     return new Promise((resolve, reject) => {
       axios.post(
         '/my-room/is-in-room'+'?access_token='+this.getters['auth/token']
       )
       .then((res) => {
-
         if(res.data.success){
           commit('SetRoomId',res.data.data.room_id);
           commit('SetIsHost',res.data.data.is_host);
@@ -72,23 +76,35 @@ const actions = {
         reject(error);
       });
     });
-  },
-  GetRoomInfo({commit}){
-    let _param = {};
-    if(this.getters['my_room/host_player'].id<0){
-      _param.forceUpdate = true;
-    }
+  },*/
+  /*
+    获取玩家的房间信息
+    mode(string)  :   all    : 完整数据
+                      simple : 只有isInRoom数据
+    force(boolean): 是否强制更新数据
+   */
+  GetInfo({commit},param={}){
+    if(!param.hasOwnProperty('mode'))
+      param.mode = 'all';
 
     return new Promise((resolve, reject) => {
       axios.post(
-        '/my-room/get-info'+'?access_token='+this.getters['auth/token'],_param
+        '/my-room/get-info'+'?access_token='+this.getters['auth/token'],
+        param
       )
       .then((res) => {
-        if(res.data.success){
-          if(!res.data.data.no_update) {
-            commit('SetRoomPlayer', res.data.data);
+        let _res = res.data;
+        if(_res.success){
+          if(!_res.data.no_update) {
+            commit('SetRoomId',_res.data.room_id);
+            if(param.mode ==='all') {
+              commit('SetIsHost', _res.data.is_host);
+              commit('SetRoomPlayer', _res.data);
+            }
           }
         }else{
+          commit('ClearRoomId');
+          commit('ClearIsHost');
           commit('ClearRoomPlayer');
         }
         resolve(res.data);
@@ -141,6 +157,7 @@ const mutations = {
     state.guest_player = data.guest_player;
     state.is_ready = data.is_ready;
   },
+
   ClearIsHost(state){
     state.is_host = false;
   },

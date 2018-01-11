@@ -14,8 +14,8 @@ export default {
     if(this.isLogin()){
       this.$store.dispatch('common/SetTitle2','('+this.$store.getters['auth/user_id']+')');
       this.$store.dispatch('room/List');
-      this.$store.dispatch('my_room/IsInRoom');
-      this.$store.dispatch('my_game/IsInGame');
+      this.$store.dispatch('my_room/GetInfo',{mode:'simple'},true);
+      //this.$store.dispatch('my_game/IsInGame');
     }
   },
   computed : {
