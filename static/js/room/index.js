@@ -166,7 +166,6 @@ export default {
 
   },
   created: function(){
-
     this.$store.dispatch('my_room/GetInfo',{force:true}).then(()=>{
       this.$store.dispatch('common/SetTitle2','房间'+this.$store.getters['my_room/room_id']);
       this.drawPlayerButton();
@@ -184,6 +183,9 @@ export default {
   watch:{
     'host_player':{
       handler:function(val,oldVal){
+        // console.log('host_player');
+        // console.log(val);
+        // console.log(oldVal);
         if(val.name!==oldVal.name){
           this.drawPlayerInfo(val,true);
         }
@@ -191,6 +193,9 @@ export default {
     },
     'guest_player':{
       handler:function(val,oldVal){
+        // console.log('guest_player');
+        // console.log(val);
+        // console.log(oldVal);
         if(val.name!==oldVal.name){
           this.drawPlayerInfo(val,false);
         }
@@ -208,6 +213,9 @@ export default {
     }
   },
   beforeDestroy () {
+    this.$store.commit('my_room/ClearRoomId');
+    this.$store.commit('my_room/ClearIsHost');
+    this.$store.commit('my_room/ClearRoomPlayer');
     clearInterval(this.intervalid1)
   },
   computed : {
@@ -225,7 +233,6 @@ export default {
     }
   },
   methods: {
-
     drawPlayerInfo(info,is_host){
       let rect_y_offset,text_y_offset;
       if(is_host){
