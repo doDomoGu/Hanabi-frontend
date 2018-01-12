@@ -8,6 +8,11 @@ export default {
     }
   },
   mounted: function(){
+    /*document.addEventListener("touchmove", function(e){   //禁用触摸移动
+      e.preventDefault()    //阻止默认行为
+    });*/
+
+
     let that = this;
     //console.log(window);
     /* 获得canvas */
