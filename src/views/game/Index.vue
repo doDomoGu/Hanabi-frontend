@@ -3,9 +3,9 @@
         <canvas id="canvas">
         </canvas>
         <div id="log-list">
-            <li v-for="log in log_list">{{log}}</li>
+            <li v-for="log in logList" :key="log">{{log}}</li>
         </div>
-        <mt-button v-if="is_host" @click.native="endGame" size="large" class="game-end-btn" type="danger" style="position:absolute;bottom:0;z-index:9999;">结束游戏</mt-button>
+        <mt-button v-if="isHost" @click.native="endGame" size="large" class="game-end-btn" type="danger" style="position:absolute;bottom:0;z-index:9999;">结束游戏</mt-button>
         <x-dialog :show.sync="cardOperationShow" hide-on-blur :on-hide="clearSelect" class="">
             <div v-if="cardOperationType===1" class="opposite-card-operation">
                 <div class="selected-card-info">
@@ -28,7 +28,7 @@
             </div>
             <div v-if="cardOperationType===0" class="yourself-card-operation">
                 <div class="selected-card-info">
-                    {{is_host?cardSelectOrd+1:cardSelectOrd+1-5}}
+                    {{isHost?cardSelectOrd+1:cardSelectOrd+1-5}}
                 </div>
                 <div class="discard-btn">
                     是否要弃掉这张牌
@@ -44,7 +44,7 @@
                 </div>
                 <div class="change-card">
                     <div>选择一张牌，与之调换位置</div>
-                    <li v-for="ordOne in [0,1,2,3,4]" class="no-color" @click="" v-if="ordOne!==(is_host?cardSelectOrd:cardSelectOrd-5)">{{ordOne+1}}</li>
+                    <li v-for="ordOne in [0,1,2,3,4]" :key="ordOne" class="no-color" v-if="ordOne!==(isHost?cardSelectOrd:cardSelectOrd-5)">{{ordOne+1}}</li>
                 </div>
             </div>
         </x-dialog>
