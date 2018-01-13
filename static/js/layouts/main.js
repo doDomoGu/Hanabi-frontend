@@ -1,23 +1,23 @@
-//import Sidebar from '@/views/layouts/sidebar'
-//import { mapState,mapMutations} from 'vuex'
+// import Sidebar from '@/views/layouts/sidebar'
+// import { mapState,mapMutations} from 'vuex'
 
 export default {
   name: 'app',
   data () {
     return {
-      //transitionName: 'slide-left'
+      // transitionName: 'slide-left'
     }
   },
   // dynamically set transition based on route change
   watch: {
-    /*'$route' (to, from) {
+    /* '$route' (to, from) {
       const toDepth = to.path.split('/').length
       const fromDepth = from.path.split('/').length
       this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
     }*/
   },
-  created(){
-    /*this.intervalid1 = setInterval(()=>{
+  created () {
+    /* this.intervalid1 = setInterval(()=>{
 
       if(this.$store.getters['auth/token']!=''){
         let token = this.$store.getters['auth/token'];
@@ -35,24 +35,22 @@ export default {
     },500);*/
   },
   methods: {
-    getTitle(){
-      let title = this.$store.getters['common/title'];
-      document.title = title;
-      return title;
+    getTitle () {
+      const title = this.$store.getters['common/title']
+      document.title = title
+      return title
     },
-    isTopPath(){
-      return this.$route.path !=='/';
+    isTopPath () {
+      return this.$route.path !== '/'
     },
-    isLogin(){
-      return this.$store.getters['auth/is_login']===true;
+    isLogin () {
+      return this.$store.getters['auth/is_login'] === true
     }
-  },
+  }
 
-  //components: { 'sidebar': Sidebar },
+  // components: { 'sidebar': Sidebar },
 
-
-
-  /*created(){
+  /* created(){
 
   },*/
 }

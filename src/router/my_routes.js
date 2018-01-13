@@ -1,4 +1,4 @@
-import Main from '../views/layouts/main';
+import Main from '../views/layouts/main'
 
 import Index from '../views/index/Index'
 import Login from '../views/index/Login'
@@ -9,12 +9,10 @@ import NotFound404 from '../views/other/NotFound404'
 import Room from '../views/room/Index'
 import Game from '../views/game/Index'
 
-
-
 var routes = [{
   path: '/',
   component: Main,
-  /*meta: {
+  /* meta: {
     requireAuth: true,
     requireRoles: '*'
   },*/
@@ -22,8 +20,8 @@ var routes = [{
     {
       path: '',
       name: '首页',
-      component: Index,
-      /*meta: {
+      component: Index
+      /* meta: {
         requireAuth: true,
         requireRoles: '*'
       }*/
@@ -58,13 +56,13 @@ var routes = [{
     {
       path: 'login',
       component: Login,
-      name: '登录页',
+      name: '登录页'
     },
     {
       path: '*',
       name: '404',
       component: NotFound404
-    },
+    }
   ]
 },
 {
@@ -74,6 +72,6 @@ var routes = [{
     requireAuth: true,
     requireRoles: '*'
   }
-}];
+}]
 
-export default routes;
+export default routes

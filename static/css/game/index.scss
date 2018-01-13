@@ -1,7 +1,3 @@
-#game {
-
-}
-
 /*  player-block  */
 .player-block {
     overflow:hidden;
@@ -22,7 +18,7 @@
 .player-block > .hand-card > li{
     padding:0;
     list-style: none;
-    width:40px;
+    width: 40px;
     height:60px;
     margin-right:10px;
     float:left;
