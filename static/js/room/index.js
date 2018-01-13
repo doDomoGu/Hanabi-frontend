@@ -165,13 +165,13 @@ export default {
     };*/
   },
   created: function () {
-    this.$store.dispatch('my_room/GetInfo', { force: true }).then(() => {
-      this.$store.dispatch('common/SetTitle2', '房间' + this.$store.getters['my_room/room_id'])
+    this.$store.dispatch('myRoom/GetInfo', { force: true }).then(() => {
+      this.$store.dispatch('common/SetTitle2', '房间' + this.$store.getters['myRoom/room_id'])
       this.drawPlayerButton()
       this.intervalid1 = setInterval(() => {
-        this.$store.dispatch('my_room/GetInfo')
-        /* this.$store.dispatch('my_game/IsInGame').then(()=>{
-          if(this.$store.getters['my_game/is_playing']){
+        this.$store.dispatch('myRoom/GetInfo')
+        /* this.$store.dispatch('myGame/IsInGame').then(()=>{
+          if(this.$store.getters['myGame/is_playing']){
             this.$router.push('/game');
           }
         });*/
@@ -211,23 +211,23 @@ export default {
     }
   },
   beforeDestroy () {
-    this.$store.commit('my_room/ClearRoomId')
-    this.$store.commit('my_room/ClearIsHost')
-    this.$store.commit('my_room/ClearRoomPlayer')
+    this.$store.commit('myRoom/ClearRoomId')
+    this.$store.commit('myRoom/ClearIsHost')
+    this.$store.commit('myRoom/ClearRoomPlayer')
     clearInterval(this.intervalid1)
   },
   computed: {
     isHost: function () {
-      return this.$store.getters['my_room/is_host']
+      return this.$store.getters['myRoom/is_host']
     },
     hostPlayer: function () {
-      return this.$store.getters['my_room/host_player']
+      return this.$store.getters['myRoom/host_player']
     },
     guestPlayer: function () {
-      return this.$store.getters['my_room/guest_player']
+      return this.$store.getters['myRoom/guest_player']
     },
     isReady: function () {
-      return this.$store.getters['my_room/is_ready']
+      return this.$store.getters['myRoom/is_ready']
     }
   },
   methods: {
@@ -305,7 +305,7 @@ export default {
     exit () {
       MessageBox.confirm('确定要退出房间?').then(action => {
         if (action === 'confirm') {
-          this.$store.dispatch('my_room/Exit').then(() => {
+          this.$store.dispatch('myRoom/Exit').then(() => {
             this.$router.push('/')
           })
         } else {
@@ -317,10 +317,10 @@ export default {
       })
     },
     doReady () {
-      this.$store.dispatch('my_room/DoReady')
+      this.$store.dispatch('myRoom/DoReady')
     },
     startGame () {
-      this.$store.dispatch('my_game/Start').then((res) => {
+      this.$store.dispatch('myGame/Start').then((res) => {
         if (res.success) {
           this.$router.push('/game')
         }

@@ -12,8 +12,8 @@ export default {
     if (this.isLogin()) {
       this.$store.dispatch('common/SetTitle2', '(' + this.$store.getters['auth/user_id'] + ')')
       this.$store.dispatch('room/List')
-      this.$store.dispatch('my_room/GetInfo', { mode: 'simple', force: true })
-      this.$store.dispatch('my_game/GetInfo', { mode: 'simple', force: true })
+      this.$store.dispatch('myRoom/GetInfo', { mode: 'simple', force: true })
+      this.$store.dispatch('myGame/GetInfo', { mode: 'simple', force: true })
     }
   },
   computed: {
@@ -42,7 +42,7 @@ export default {
     },
     enterRoom (roomId) {
       const that = this
-      this.$store.dispatch('my_room/Enter', roomId).then((res) => {
+      this.$store.dispatch('myRoom/Enter', roomId).then((res) => {
         if (res.success) {
           that.$router.push('/room')
         } else {
@@ -51,10 +51,10 @@ export default {
       })
     },
     isInRoom () {
-      return this.$store.getters['my_room/room_id'] > 0
+      return this.$store.getters['myRoom/room_id'] > 0
     },
     isInGame () {
-      return this.$store.getters['my_game/is_playing']
+      return this.$store.getters['myGame/is_playing']
     }
   }
 }
