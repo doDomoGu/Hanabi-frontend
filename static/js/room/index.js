@@ -104,6 +104,9 @@ export default {
       this.ctx
     )
 
+    this.drawPlayerInfo({}, true)
+    this.drawPlayerInfo({}, false)
+
     // 绘制退出按钮
     this.ctx.fillStyle = this.exitButtonColor
     MyCanvas.drawRoundedRect(
@@ -252,7 +255,9 @@ export default {
       this.ctx.font = '36px Microsoft JhengHei'
       this.ctx.fillStyle = this.playerInfoTextColor
       this.ctx.textAlign = 'left'
-      this.ctx.fillText((isHost ? '房主' : '玩家') + ' : ' + info.name + (this.isHost === isHost ? ' (你)' : ''), this.playerAreaX + 40 * this.ratio, textYOffset)
+
+      const playerName = info.id > -1 ? info.name + (this.isHost === isHost ? ' (你)' : '') : '--'
+      this.ctx.fillText((isHost ? '房主' : '玩家') + ' : ' + playerName, this.playerAreaX + 40 * this.ratio, textYOffset)
     },
     drawPlayerButton (isReady) {
       this.ctx.font = '30px Microsoft JhengHei'
