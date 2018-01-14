@@ -23,8 +23,8 @@ const actions = {
       )
         .then((res) => {
           if (res.data.success) {
-            commit('SetGameIsPlaying')
-          // commit('SetRoomUser',res.data.data);
+            // commit('SetGameIsPlaying')
+            // commit('SetRoomUser',res.data.data);
           } else {
           // commit('ClearRoomUser');
           }
@@ -43,7 +43,7 @@ const actions = {
       )
         .then((res) => {
           if (res.data.success) {
-            commit('ClearInfo')
+            // commit('ClearInfo')
             // commit('SetGameId',res.data.data.game_id);
             // commit('SetRoomUser',res.data.data);
           } else {

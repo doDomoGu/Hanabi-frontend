@@ -172,12 +172,13 @@ export default {
       this.$store.dispatch('common/SetTitle2', '房间' + this.$store.getters['myRoom/roomId'])
       this.drawPlayerButton()
       this.intervalid1 = setInterval(() => {
-        this.$store.dispatch('myRoom/GetInfo')
-        /* this.$store.dispatch('myGame/IsInGame').then(()=>{
-          if(this.$store.getters['myGame/isPlaying']){
-            this.$router.push('/game');
+        this.$store.dispatch('myRoom/GetInfo').then((res) => {
+          if (res.success) {
+            if (res.data.gameStart) {
+              this.$router.push('/game')
+            }
           }
-        });*/
+        })
       }, 500)
     })
   },
@@ -260,6 +261,17 @@ export default {
       this.ctx.fillText((isHost ? '房主' : '玩家') + ' : ' + playerName, this.playerAreaX + 40 * this.ratio, textYOffset)
     },
     drawPlayerButton (isReady) {
+      // TODO绘制按钮还需要优化
+      if (this.isHost) {
+        if (this.hostPlayer.id === -1) {
+          return false
+        }
+      } else {
+        if (this.guestPlayer.id === -1) {
+          return false
+        }
+      }
+
       this.ctx.font = '30px Microsoft JhengHei'
       this.ctx.textAlign = 'left'
 
@@ -325,11 +337,7 @@ export default {
       this.$store.dispatch('myRoom/DoReady')
     },
     startGame () {
-      this.$store.dispatch('myGame/Start').then((res) => {
-        if (res.success) {
-          this.$router.push('/game')
-        }
-      })
+      this.$store.dispatch('myGame/Start')
     }
   }
 }

@@ -217,7 +217,7 @@ export default {
       } else if (guestHandsOrd > -1) {
         that.showCardOperation(that.guestHands, that.guestHands[guestHandsOrd], that.isHost ? 1 : 0)
       } else {
-        console.log(1111)
+        // console.log(1111)
       }
     }, false)
   },
@@ -248,7 +248,9 @@ export default {
     })
   },
   beforeDestroy () {
-    console.log(this)
+    this.$store.commit('myRoom/ClearRoomId')
+    this.$store.commit('myRoom/ClearIsHost')
+    this.$store.commit('myRoom/ClearRoomPlayer')
     clearInterval(this.intervalid1)
   },
   computed: {
