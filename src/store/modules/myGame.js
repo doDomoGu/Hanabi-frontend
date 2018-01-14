@@ -19,7 +19,7 @@ const actions = {
   Start ({ commit }) {
     return new Promise((resolve, reject) => {
       axios.post(
-        '/my-game/start' + '?access_token=' + this.getters['auth/token']
+        '/my-game/start' + '?accessToken=' + this.getters['auth/token']
       )
         .then((res) => {
           if (res.data.success) {
@@ -39,7 +39,7 @@ const actions = {
   End ({ commit }) {
     return new Promise((resolve, reject) => {
       axios.post(
-        '/my-game/end' + '?access_token=' + this.getters['auth/token']
+        '/my-game/end' + '?accessToken=' + this.getters['auth/token']
       )
         .then((res) => {
           if (res.data.success) {
@@ -61,13 +61,13 @@ const actions = {
     if (!param.hasOwnProperty('mode')) { param.mode = 'all' }
     return new Promise((resolve, reject) => {
       axios.post(
-        '/my-game/get-info' + '?access_token=' + this.getters['auth/token'],
+        '/my-game/get-info' + '?accessToken=' + this.getters['auth/token'],
         param
       )
         .then((res) => {
           const _res = res.data
           if (_res.success) {
-            if (!_res.data.no_update) {
+            if (!_res.data.noUpdate) {
               commit('SetGameIsPlaying')
               if (param.mode === 'all') {
                 commit('SetGameInfo', _res.data.game)
@@ -89,7 +89,7 @@ const actions = {
   /* IsInGame({commit}){
     return new Promise((resolve, reject) => {
       axios.post(
-        '/my-game/is-in-game'+'?access_token='+this.getters['auth/token']
+        '/my-game/is-in-game'+'?accessToken='+this.getters['auth/token']
       )
       .then((res) => {
         if(res.data.success){
@@ -110,7 +110,7 @@ const actions = {
   DoDiscard ({ commit }, cardSelectOrd) {
     return new Promise((resolve, reject) => {
       axios.post(
-        '/my-game/do-discard' + '?access_token=' + this.getters['auth/token'],
+        '/my-game/do-discard' + '?accessToken=' + this.getters['auth/token'],
         {
           cardSelectOrd: cardSelectOrd
         }
@@ -132,7 +132,7 @@ const actions = {
   DoPlay ({ commit }, cardSelectOrd) {
     return new Promise((resolve, reject) => {
       axios.post(
-        '/my-game/do-play' + '?access_token=' + this.getters['auth/token'],
+        '/my-game/do-play' + '?accessToken=' + this.getters['auth/token'],
         {
           cardSelectOrd: cardSelectOrd
         }
@@ -154,7 +154,7 @@ const actions = {
   DoCue ({ commit }, [cardSelectOrd, cueType]) {
     return new Promise((resolve, reject) => {
       axios.post(
-        '/my-game/do-cue' + '?access_token=' + this.getters['auth/token'],
+        '/my-game/do-cue' + '?accessToken=' + this.getters['auth/token'],
         {
           cardSelectOrd: cardSelectOrd,
           cueType: cueType

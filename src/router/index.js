@@ -4,7 +4,7 @@ import Router from 'vue-router'
 
 import store from '../store'
 
-import myRoutes from './my_routes'
+import myRoutes from './myRoutes'
 // import NotFound404Routes from './NotFound404'
 
 Vue.use(Router)
@@ -84,7 +84,7 @@ const authFalse = function (to, from, next) {
 // 路由切换时走判断流程
 router.beforeEach((to, from, next) => {
   // vuex读取登录状态
-  if (store.getters['auth/is_login']) {
+  if (store.getters['auth/isLogin']) {
     authTrue(to, from, next)
   } else {
     // LocalStorage读取token
@@ -93,7 +93,7 @@ router.beforeEach((to, from, next) => {
     if (typeof (tokenInLocalStorage) === 'string' && tokenInLocalStorage !== '') {
       // 发送token验证请求
       store.dispatch('auth/CheckToken', tokenInLocalStorage).then(() => {
-        if (store.getters['auth/is_login']) {
+        if (store.getters['auth/isLogin']) {
           // 验证token 成功
           authTrue(to, from, next)
         } else {

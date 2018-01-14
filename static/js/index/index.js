@@ -10,7 +10,7 @@ export default {
   created: function () {
     this.$store.dispatch('common/SetTitle2', 'Hanabi')
     if (this.isLogin()) {
-      this.$store.dispatch('common/SetTitle2', '(' + this.$store.getters['auth/user_id'] + ')')
+      this.$store.dispatch('common/SetTitle2', '(' + this.$store.getters['auth/userId'] + ')')
       this.$store.dispatch('room/List')
       this.$store.dispatch('myRoom/GetInfo', { mode: 'simple', force: true })
       this.$store.dispatch('myGame/GetInfo', { mode: 'simple', force: true })
@@ -38,7 +38,7 @@ export default {
 
     },*/
     isLogin () {
-      return this.$store.getters['auth/is_login']
+      return this.$store.getters['auth/isLogin']
     },
     enterRoom (roomId) {
       const that = this
@@ -51,10 +51,10 @@ export default {
       })
     },
     isInRoom () {
-      return this.$store.getters['myRoom/room_id'] > 0
+      return this.$store.getters['myRoom/roomId'] > 0
     },
     isInGame () {
-      return this.$store.getters['myGame/is_playing']
+      return this.$store.getters['myGame/isPlaying']
     }
   }
 }

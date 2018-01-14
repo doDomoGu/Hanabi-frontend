@@ -20,7 +20,7 @@ const actions = {
   Enter ({ commit }, roomId) {
     return new Promise((resolve, reject) => {
       axios.post(
-        '/my-room/enter' + '?access_token=' + this.getters['auth/token'],
+        '/my-room/enter' + '?accessToken=' + this.getters['auth/token'],
         {
           roomId: roomId
         }
@@ -39,7 +39,7 @@ const actions = {
   Exit ({ commit }) {
     return new Promise((resolve, reject) => {
       axios.post(
-        '/my-room/exit' + '?access_token=' + this.getters['auth/token']
+        '/my-room/exit' + '?accessToken=' + this.getters['auth/token']
       )
         .then((res) => {
         /* if(res.data.success){
@@ -59,7 +59,7 @@ const actions = {
 
     return new Promise((resolve, reject) => {
       axios.post(
-        '/my-room/is-in-room'+'?access_token='+this.getters['auth/token']
+        '/my-room/is-in-room'+'?accessToken='+this.getters['auth/token']
       )
       .then((res) => {
         if(res.data.success){
@@ -88,13 +88,13 @@ const actions = {
 
     return new Promise((resolve, reject) => {
       axios.post(
-        '/my-room/get-info' + '?access_token=' + this.getters['auth/token'],
+        '/my-room/get-info' + '?accessToken=' + this.getters['auth/token'],
         param
       )
         .then((res) => {
           const _res = res.data
           if (_res.success) {
-            if (!_res.data.no_update) {
+            if (!_res.data.noUpdate) {
               commit('SetRoomId', _res.data.roomId)
               if (param.mode === 'all') {
                 commit('SetIsHost', _res.data.isHost)
@@ -116,7 +116,7 @@ const actions = {
   DoReady ({ commit }) {
     return new Promise((resolve, reject) => {
       axios.post(
-        '/my-room/do-ready' + '?access_token=' + this.getters['auth/token']
+        '/my-room/do-ready' + '?accessToken=' + this.getters['auth/token']
       )
         .then((res) => {
           if (res.data.success) {

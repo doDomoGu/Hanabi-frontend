@@ -1,34 +1,34 @@
 const state = {
-  title:'Hanabi',
-  title_suffix:'Hanabi'
-};
+  title: 'Hanabi',
+  titleSuffix: 'Hanabi'
+}
 const actions = {
-  SetTitle({ commit }, data) {
-      commit('set_title',data);
+  SetTitle ({ commit }, data) {
+    commit('setTitle', data)
   },
-  SetTitle2({ commit }, data) {
-    if(data!=this.getters['common/title_suffix']){
-      data = this.getters['common/title_suffix'] + ' _ ' +data;
+  SetTitle2 ({ commit }, data) {
+    if (data !== this.getters['common/titleSuffix']) {
+      data = this.getters['common/titleSuffix'] + ' _ ' + data
     }
-    commit('set_title',data);
-  },
-};
+    commit('setTitle', data)
+  }
+}
 
 const getters = {
-    title: state => state.title,
-    title_suffix: state => state.title_suffix,
-};
+  title: state => state.title,
+  titleSuffix: state => state.titleSuffix
+}
 
 const mutations = {
-    set_title: (state, data) => {
-        state.title = data;
-    },
-};
+  setTitle: (state, data) => {
+    state.title = data
+  }
+}
 
 export default {
-    namespaced:true,
-    state,
-    actions,
-    getters,
-    mutations
+  namespaced: true,
+  state,
+  actions,
+  getters,
+  mutations
 }

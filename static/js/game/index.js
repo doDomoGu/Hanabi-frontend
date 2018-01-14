@@ -225,7 +225,7 @@ export default {
     this.$store.dispatch('myGame/GetInfo', { mode: 'simple', force: true }).then(() => {
       this.$store.dispatch(
         'common/SetTitle',
-        this.$store.getters['common/title_suffix'] + ' - ' + (this.$store.getters['myGame/is_playing'] > 0 ? '游戏中' : '错误') + ' _ (' + this.$store.getters['auth/user_id'] + ')'
+        this.$store.getters['common/titleSuffix'] + ' - ' + (this.$store.getters['myGame/isPlaying'] > 0 ? '游戏中' : '错误') + ' _ (' + this.$store.getters['auth/userId'] + ')'
       )
       this.$store.dispatch('myRoom/GetInfo', { force: true })
 
@@ -234,7 +234,7 @@ export default {
       this.intervalid1 = setInterval(() => {
         const _score = this.$store.getters['myGame/score'] + ''
         this.$store.dispatch('myGame/GetInfo').then(() => {
-          if (!this.$store.getters['myGame/is_playing']) {
+          if (!this.$store.getters['myGame/isPlaying']) {
             clearInterval(this.intervalid1)
 
             MessageBox('提示', '游戏得分[' + _score + ']，结束').then(action => {
@@ -256,40 +256,40 @@ export default {
       return this.$store.getters['myRoom/isHost']
     },
     hostPlayer: function () {
-      return this.$store.getters['myRoom/host_player']
+      return this.$store.getters['myRoom/hostPlayer']
     },
     guestPlayer: function () {
-      return this.$store.getters['myRoom/guest_player']
+      return this.$store.getters['myRoom/guestPlayer']
     },
     hostHands: function () {
-      return this.$store.getters['myGame/host_hands']
+      return this.$store.getters['myGame/hostHands']
     },
     guestHands: function () {
-      return this.$store.getters['myGame/guest_hands']
+      return this.$store.getters['myGame/guestHands']
     },
     libraryCardsNum: function () {
-      return this.$store.getters['myGame/library_cards_num']
+      return this.$store.getters['myGame/libraryCardsNum']
     },
     cueNum: function () {
-      return this.$store.getters['myGame/cue_num']
+      return this.$store.getters['myGame/cueNum']
     },
     chanceNum: function () {
-      return this.$store.getters['myGame/chance_num']
+      return this.$store.getters['myGame/chanceNum']
     },
     score: function () {
       return this.$store.getters['myGame/score']
     },
     discardCardsNum: function () {
-      return this.$store.getters['myGame/discard_cards_num']
+      return this.$store.getters['myGame/discardCardsNum']
     },
     successCards: function () {
-      return this.$store.getters['myGame/success_cards']
+      return this.$store.getters['myGame/successCards']
     },
     roundPlayerIsHost: function () {
-      return this.$store.getters['myGame/round_player_is_host']
+      return this.$store.getters['myGame/roundPlayerIsHost']
     },
     logList: function () {
-      return this.$store.getters['myGame/log_list2']
+      return this.$store.getters['myGame/logist2']
     }
   },
   watch: {

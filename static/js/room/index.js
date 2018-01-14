@@ -166,12 +166,12 @@ export default {
   },
   created: function () {
     this.$store.dispatch('myRoom/GetInfo', { force: true }).then(() => {
-      this.$store.dispatch('common/SetTitle2', '房间' + this.$store.getters['myRoom/room_id'])
+      this.$store.dispatch('common/SetTitle2', '房间' + this.$store.getters['myRoom/roomId'])
       this.drawPlayerButton()
       this.intervalid1 = setInterval(() => {
         this.$store.dispatch('myRoom/GetInfo')
         /* this.$store.dispatch('myGame/IsInGame').then(()=>{
-          if(this.$store.getters['myGame/is_playing']){
+          if(this.$store.getters['myGame/isPlaying']){
             this.$router.push('/game');
           }
         });*/
@@ -218,16 +218,16 @@ export default {
   },
   computed: {
     isHost: function () {
-      return this.$store.getters['myRoom/is_host']
+      return this.$store.getters['myRoom/isHost']
     },
     hostPlayer: function () {
-      return this.$store.getters['myRoom/host_player']
+      return this.$store.getters['myRoom/hostPlayer']
     },
     guestPlayer: function () {
-      return this.$store.getters['myRoom/guest_player']
+      return this.$store.getters['myRoom/guestPlayer']
     },
     isReady: function () {
-      return this.$store.getters['myRoom/is_ready']
+      return this.$store.getters['myRoom/isReady']
     }
   },
   methods: {
