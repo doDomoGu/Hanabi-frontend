@@ -212,6 +212,13 @@ export default {
           this.drawPlayerButton(val)
         }
       }
+    },
+    'isHost': {
+      handler: function (val, oldVal) {
+        if (val !== oldVal) {
+          this.drawPlayerButton(this.isReady)
+        }
+      }
     }
   },
   beforeDestroy () {
@@ -274,6 +281,9 @@ export default {
 
       this.ctx.font = '30px Microsoft JhengHei'
       this.ctx.textAlign = 'left'
+      this.ctx.fillStyle = this.playerAreaBgColor
+      MyCanvas.drawRoundedRect(this.playerButtonRectHost, this.radius, this.ctx)
+      MyCanvas.drawRoundedRect(this.playerButtonRectGuest, this.radius, this.ctx)
 
       if (this.isHost) {
         if (isReady) {
