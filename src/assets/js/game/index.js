@@ -234,7 +234,7 @@ export default {
       this.intervalid1 = setInterval(() => {
         const _score = this.$store.getters['myGame/score'] + ''
         this.$store.dispatch('myGame/GetInfo').then(() => {
-          if (!this.$store.getters['myGame/isPlaying']) {
+          if (this.$store.getters['myGame/isPlaying'] !== true) {
             clearInterval(this.intervalid1)
 
             MessageBox('提示', '游戏得分[' + _score + ']，结束').then(action => {
@@ -251,6 +251,7 @@ export default {
     this.$store.commit('myRoom/ClearRoomId')
     this.$store.commit('myRoom/ClearIsHost')
     this.$store.commit('myRoom/ClearRoomPlayer')
+    this.$store.commit('myGame/ClearInfo')
     clearInterval(this.intervalid1)
   },
   computed: {

@@ -1,7 +1,7 @@
 import axios from '../../axios'
 
 const state = {
-  isPlaying: false,
+  isPlaying: -1,
   logList: [],
   hostHands: [],
   guestHands: [],
@@ -221,12 +221,12 @@ const mutations = {
     state.roundPlayerIsHost = data.roundPlayerIsHost
   },
   ClearInfo (state) {
-    state.isPlaying = false
+    state.isPlaying = -1
     state.logList = []
     state.hostHands = []
     state.guestHands = []
     state.roundNum = -1
-    state.roundPlayerIsHost = false
+    state.roundPlayerIsHost = -1
     state.libraryCardsNum = -1
     state.discardCardsNum = -1
     state.cueNum = -1
