@@ -1,4 +1,11 @@
-/* 获得屏幕像素缩放比例 */
+// font-size
+module.exports.fontSize = window.innerWidth / 6.4
+
+module.exports.px2Rem = function (px) {
+  return px / 375 * window.innerWidth
+}
+
+// 获得屏幕像素缩放比例
 module.exports.getPixelRatio = function (context) {
   const backingStore = context.backingStorePixelRatio ||
     context.webkitBackingStorePixelRatio ||

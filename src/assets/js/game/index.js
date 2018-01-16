@@ -29,7 +29,7 @@ export default {
 
     /* 设置canvas宽度高度，铺满全屏 */
     this.canvas.width = window.innerWidth * this.ratio
-    this.canvas.height = (window.innerHeight - 40) * this.ratio
+    this.canvas.height = (window.innerHeight - MyCanvas.px2Rem(40)) * this.ratio
     this.ctx.fillStyle = '#dedede' // 屏幕背景色
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
@@ -39,42 +39,42 @@ export default {
     // 玩家信息文字  player_info_text
     // 桌面区域 table_area
 
-    const playerAreaXPad = 20 * this.ratio // 玩家区域内的左右留白
-    const playerAreaYPad = 10 * this.ratio // 玩家区域内的上留白
-    const playerInfoPad = 20 * this.ratio // 玩家信息文字相对玩家信息的留白
+    const playerAreaXPad = MyCanvas.px2Rem(20) * this.ratio // 玩家区域内的左右留白
+    const playerAreaYPad = MyCanvas.px2Rem(10) * this.ratio // 玩家区域内的上留白
+    const playerInfoPad = MyCanvas.px2Rem(20) * this.ratio // 玩家信息文字相对玩家信息的留白
 
-    const tableAreaXPad = 20 * this.ratio // 桌面区域内的左右留白
-    const tableAreaYPad = 10 * this.ratio // 桌面区域内的上留白
+    const tableAreaXPad = MyCanvas.px2Rem(20) * this.ratio // 桌面区域内的左右留白
+    const tableAreaYPad = MyCanvas.px2Rem(10) * this.ratio // 桌面区域内的上留白
 
-    this.radius = 4 * this.ratio // 矩形圆角半径
+    this.radius = MyCanvas.px2Rem(4) * this.ratio // 矩形圆角半径
 
     // 区块的宽高(尺寸)
     this.playerAreaW = this.canvas.width // 玩家区域的宽度
-    this.playerAreaH = 150 * this.ratio // 玩家区域的高度
+    this.playerAreaH = MyCanvas.px2Rem(140) * this.ratio // 玩家区域的高度
 
     this.playerInfoW = this.playerAreaW - playerAreaXPad * 2 // 玩家信息的宽度
-    this.playerInfoH = 30 * this.ratio // 玩家信息的高度
+    this.playerInfoH = MyCanvas.px2Rem(30) * this.ratio // 玩家信息的高度
 
-    const cardW = 50 * this.ratio
-    const cardH = 80 * this.ratio
+    const cardW = MyCanvas.px2Rem(40) * this.ratio
+    const cardH = MyCanvas.px2Rem(70) * this.ratio
 
-    this.playerHandsW = 50 * this.ratio // 手牌宽度
-    this.playerHandsH = 80 * this.ratio // 手牌高度
+    this.playerHandsW = MyCanvas.px2Rem(40) * this.ratio // 手牌宽度
+    this.playerHandsH = MyCanvas.px2Rem(70) * this.ratio // 手牌高度
 
     this.tableAreaW = this.canvas.width // 桌面区域的宽度
-    this.tableAreaH = 100 * this.ratio // 桌面区域的高度
+    this.tableAreaH = MyCanvas.px2Rem(90) * this.ratio // 桌面区域的高度
 
     this.tableLibraryW = cardW // 桌面牌库的宽度
     this.tableLibraryH = cardH // 桌面牌库的高度
 
-    this.tableSuccessCardsW = 20 * this.ratio // 桌面成功的卡牌的宽度
-    this.tableSuccessCardsH = 40 * this.ratio // 桌面成功的卡牌的高度
+    this.tableSuccessCardsW = MyCanvas.px2Rem(20) * this.ratio // 桌面成功的卡牌的宽度
+    this.tableSuccessCardsH = MyCanvas.px2Rem(40) * this.ratio // 桌面成功的卡牌的高度
 
     this.tableDiscardW = cardW // 桌面弃牌堆的宽度
     this.tableDiscardH = cardH // 桌面弃牌堆的高度
 
     this.historyAreaW = this.canvas.width // 游戏历史区域的高度
-    this.historyAreaH = 100 * this.ratio // 游戏历史区域的高度
+    this.historyAreaH = MyCanvas.px2Rem(80) * this.ratio // 游戏历史区域的高度
 
     /* 颜色 */
     this.playerAreaBgColor = '#5fc0f3' // 玩家区域的背景色
@@ -110,11 +110,11 @@ export default {
     this.playerInfoTextHostY = this.playerInfoHostY + playerInfoPad // (房主)玩家信息内文字y偏移量
     this.playerInfoTextGuestY = this.playerInfoGuestY + playerInfoPad // (访客)玩家信息内文字y偏移量
 
-    this.playerHandsFirstX = 20 * this.ratio // 玩家手牌第一张x偏移量(相对玩家区域)
-    this.playerHandsHostY = this.playerInfoHostY + this.playerInfoH + 20 * this.ratio // (房主)玩家手牌y偏移量
-    this.playerHandsGuestY = this.playerInfoGuestY + this.playerInfoH + 20 * this.ratio // (访客)玩家手牌y偏移量
+    this.playerHandsFirstX = MyCanvas.px2Rem(20) * this.ratio // 玩家手牌第一张x偏移量(相对玩家区域)
+    this.playerHandsHostY = this.playerInfoHostY + this.playerInfoH + MyCanvas.px2Rem(20) * this.ratio // (房主)玩家手牌y偏移量
+    this.playerHandsGuestY = this.playerInfoGuestY + this.playerInfoH + MyCanvas.px2Rem(20) * this.ratio // (访客)玩家手牌y偏移量
 
-    this.playerHandsPad = 16 * this.ratio // 手牌之间的留白距离
+    this.playerHandsPad = MyCanvas.px2Rem(16) * this.ratio // 手牌之间的留白距离
 
     this.playerHandsHostRects = [] // (房主)玩家的全部手牌路径信息
     for (let n = 0; n < 5; n++) {
@@ -146,14 +146,14 @@ export default {
     this.tableLibraryX = this.tableAreaX + tableAreaXPad // 牌库区域x偏移量
     this.tableLibraryY = this.tableAreaY + tableAreaYPad // 牌库区域y偏移量
 
-    this.tableNumX = this.tableLibraryX + this.tableLibraryW + 10 * this.ratio // 牌库区域x偏移量
+    this.tableNumX = this.tableLibraryX + this.tableLibraryW + MyCanvas.px2Rem(10) * this.ratio // 牌库区域x偏移量
     this.tableNumY = this.tableAreaY + tableAreaYPad // 牌库区域y偏移量
 
-    this.tableSuccessCardsX = this.tableNumX + 50 * this.ratio // 成功的卡牌区域x偏移量
+    this.tableSuccessCardsX = this.tableNumX + MyCanvas.px2Rem(50) * this.ratio // 成功的卡牌区域x偏移量
     this.tableSuccessCardsY = this.tableAreaY + tableAreaYPad // 成功的卡牌区域y偏移量
-    this.tableSuccessCardsPad = 6 * this.ratio // 成功的卡牌区域之间的留白
+    this.tableSuccessCardsPad = MyCanvas.px2Rem(6) * this.ratio // 成功的卡牌区域之间的留白
 
-    this.tableDiscardX = this.tableAreaX + this.tableAreaW - this.tableDiscardW - 10 * this.ratio // 弃牌堆x偏移量
+    this.tableDiscardX = this.tableAreaX + this.tableAreaW - this.tableDiscardW - MyCanvas.px2Rem(10) * this.ratio // 弃牌堆x偏移量
     this.tableDiscardY = this.tableAreaY + tableAreaYPad // 弃牌堆y偏移量
 
     this.historyAreaX = 0 // 游戏历史区域x偏移量
