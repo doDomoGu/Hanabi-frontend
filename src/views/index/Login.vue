@@ -8,4 +8,4 @@
     </div>
 </template>
 <script src="@js/index/login.js"></script>
-<style src="@css/index/login.scss"></style>
+<style lang="scss" src="@css/index/login.scss"></style>

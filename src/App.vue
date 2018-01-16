@@ -2,4 +2,4 @@
     <router-view></router-view>
 </template>
 <script src="@js/app.js"></script>
-<style src="@css/main.scss"></style>
+<style lang="scss" src="@css/main.scss"></style>

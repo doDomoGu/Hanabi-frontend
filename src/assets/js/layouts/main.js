@@ -17,6 +17,7 @@ export default {
     }*/
   },
   created () {
+    document.documentElement.style.fontSize = document.documentElement.clientWidth / 6.4 + 'px'
     /* this.intervalid1 = setInterval(()=>{
 
       if(this.$store.getters['auth/token']!=''){
