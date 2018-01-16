@@ -22,7 +22,7 @@ export default {
 
     /* 设置canvas宽度高度，铺满全屏 */
     this.canvas.width = window.innerWidth * this.ratio
-    this.canvas.height = (window.innerHeight - 40) * this.ratio
+    this.canvas.height = (window.innerHeight - MyCanvas.px2Rem(40)) * this.ratio
     this.ctx.fillStyle = '#dedede' // 屏幕背景色
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
@@ -39,24 +39,24 @@ export default {
     this.exitButtonColor = '#dc0c22' // 退出按钮颜色
     this.exitButtonTouchColor = '#8d0917' // 退出按钮颜色(触摸时)
 
-    this.radius = 10 * this.ratio // 矩形圆角半径
+    this.radius = MyCanvas.px2Rem(10) * this.ratio // 矩形圆角半径
 
-    this.topLeftPad = 10 * this.ratio // 左侧pad
-    this.topWidth = this.canvas.width - this.topLeftPad * 2 // 去除左右pad后的宽度
+    this.topLeftPad = MyCanvas.px2Rem(10) * this.ratio // 左侧pad
+    this.topWidth = this.canvas.width - this.topLeftPad * MyCanvas.px2Rem(2) // 去除左右pad后的宽度
 
     this.playerAreaX = this.topLeftPad // 玩家区域x偏移量(相对整个画布)
-    this.playerAreaHostY = 10 * this.ratio // 房主玩家区域y偏移量(相对整个画布)
-    this.playerAreaGuestY = 160 * this.ratio // 访客玩家区域y偏移量(相对整个画布)
-    this.playerAreaHeight = 140 * this.ratio // 玩家区域的高度
+    this.playerAreaHostY = MyCanvas.px2Rem(10) * this.ratio // 房主玩家区域y偏移量(相对整个画布)
+    this.playerAreaGuestY = MyCanvas.px2Rem(160) * this.ratio // 访客玩家区域y偏移量(相对整个画布)
+    this.playerAreaHeight = MyCanvas.px2Rem(140) * this.ratio // 玩家区域的高度
     this.playerAreaWidth = this.topWidth // 玩家区域的宽度
 
-    this.playerButtonXOffset = 20 * this.ratio // 玩家区域内按钮x偏移量(相对玩家区域)
-    this.playerButtonYOffset = 80 * this.ratio // 玩家区域内按钮y偏移量(相对玩家区域)
-    this.playerButtonWidth = 100 * this.ratio // 玩家区域内按钮宽度
-    this.playerButtonHeight = 30 * this.ratio // 玩家区域内按钮高度
+    this.playerButtonXOffset = MyCanvas.px2Rem(20) * this.ratio // 玩家区域内按钮x偏移量(相对玩家区域)
+    this.playerButtonYOffset = MyCanvas.px2Rem(80) * this.ratio // 玩家区域内按钮y偏移量(相对玩家区域)
+    this.playerButtonWidth = MyCanvas.px2Rem(100) * this.ratio // 玩家区域内按钮宽度
+    this.playerButtonHeight = MyCanvas.px2Rem(30) * this.ratio // 玩家区域内按钮高度
 
-    this.playerButtonTextXOffset = 20 * this.ratio // 玩家区域内按钮内文字x偏移量(相对按钮区域)
-    this.playerButtonTextYOffset = 20 * this.ratio // 玩家区域内按钮内文字y偏移量(相对按钮区域)
+    this.playerButtonTextXOffset = MyCanvas.px2Rem(20) * this.ratio // 玩家区域内按钮内文字x偏移量(相对按钮区域)
+    this.playerButtonTextYOffset = MyCanvas.px2Rem(20) * this.ratio // 玩家区域内按钮内文字y偏移量(相对按钮区域)
 
     this.playerButtonRectHost = {
       x: this.playerAreaX + this.playerButtonXOffset,
@@ -72,12 +72,12 @@ export default {
     }
 
     this.exitBtnX = this.topLeftPad // 退出按钮x偏移量(相对整个画布)
-    this.exitBtnY = 320 * this.ratio // 退出按钮y偏移量(相对整个画布)
-    this.exitBtnH = 30 * this.ratio // 退出按钮高度
+    this.exitBtnY = MyCanvas.px2Rem(320) * this.ratio // 退出按钮y偏移量(相对整个画布)
+    this.exitBtnH = MyCanvas.px2Rem(30) * this.ratio // 退出按钮高度
     this.exitBtnW = this.topWidth // 退出按钮宽度
 
     // this.exit_btn_text_x  = 20 * this.ratio;    //退出按钮内文字x偏移量(相对按钮区域)
-    this.exitBtnTextY = 20 * this.ratio // 退出按钮内文字y偏移量(相对按钮区域)
+    this.exitBtnTextY = MyCanvas.px2Rem(20) * this.ratio // 退出按钮内文字y偏移量(相对按钮区域)
 
     /* 绘图 */
 
@@ -245,17 +245,17 @@ export default {
     drawPlayerInfo (info, isHost) {
       let rectYOffset, textYOffset
       if (isHost) {
-        rectYOffset = this.playerAreaHostY + 20 * this.ratio
-        textYOffset = this.playerAreaHostY + 46 * this.ratio
+        rectYOffset = this.playerAreaHostY + MyCanvas.px2Rem(20) * this.ratio
+        textYOffset = this.playerAreaHostY + MyCanvas.px2Rem(46) * this.ratio
       } else {
-        rectYOffset = this.playerAreaGuestY + 20 * this.ratio
-        textYOffset = this.playerAreaGuestY + 46 * this.ratio
+        rectYOffset = this.playerAreaGuestY + MyCanvas.px2Rem(20) * this.ratio
+        textYOffset = this.playerAreaGuestY + MyCanvas.px2Rem(46) * this.ratio
       }
       const rect = {
-        x: this.playerAreaX + 20 * this.ratio,
+        x: this.playerAreaX + MyCanvas.px2Rem(20) * this.ratio,
         y: rectYOffset,
-        w: this.playerAreaWidth - 40 * this.ratio,
-        h: 40 * this.ratio
+        w: this.playerAreaWidth - MyCanvas.px2Rem(40) * this.ratio,
+        h: MyCanvas.px2Rem(40) * this.ratio
       }
       this.ctx.fillStyle = this.playerInfoBgColor
 
@@ -265,7 +265,7 @@ export default {
       this.ctx.textAlign = 'left'
 
       const playerName = info.id > -1 ? info.name + (this.isHost === isHost ? ' (你)' : '') : '--'
-      this.ctx.fillText((isHost ? '房主' : '玩家') + ' : ' + playerName, this.playerAreaX + 40 * this.ratio, textYOffset)
+      this.ctx.fillText((isHost ? '房主' : '玩家') + ' : ' + playerName, this.playerAreaX + MyCanvas.px2Rem(40) * this.ratio, textYOffset)
     },
     drawPlayerButton (isReady) {
       // TODO绘制按钮还需要优化
