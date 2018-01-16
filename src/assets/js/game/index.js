@@ -292,7 +292,7 @@ export default {
       return this.$store.getters['myGame/roundPlayerIsHost']
     },
     logList: function () {
-      return this.$store.getters['myGame/logist2']
+      return this.$store.getters['myGame/logList2']
     }
   },
   watch: {
