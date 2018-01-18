@@ -54,7 +54,7 @@ export default {
       return this.$store.getters['myRoom/roomId'] > 0
     },
     isInGame () {
-      return this.$store.getters['myGame/isPlaying']
+      return this.$store.getters['myGame/isPlaying'] === true
     }
   }
 }
