@@ -67,8 +67,8 @@ export default {
     this.tableLibraryW = cardW // 桌面牌库的宽度
     this.tableLibraryH = cardH // 桌面牌库的高度
 
-    this.tableSuccessCardsW = MyCanvas.px2Rem(20) * this.ratio // 桌面成功的卡牌的宽度
-    this.tableSuccessCardsH = MyCanvas.px2Rem(40) * this.ratio // 桌面成功的卡牌的高度
+    this.tableSuccessCardsW = MyCanvas.px2Rem(30) * this.ratio // 桌面成功的卡牌的宽度
+    this.tableSuccessCardsH = MyCanvas.px2Rem(30 / 40 * 70) * this.ratio // 桌面成功的卡牌的高度
 
     this.tableDiscardW = cardW // 桌面弃牌堆的宽度
     this.tableDiscardH = cardH // 桌面弃牌堆的高度
@@ -149,7 +149,7 @@ export default {
     this.tableNumX = this.tableLibraryX + this.tableLibraryW + MyCanvas.px2Rem(10) * this.ratio // 牌库区域x偏移量
     this.tableNumY = this.tableAreaY + tableAreaYPad // 牌库区域y偏移量
 
-    this.tableSuccessCardsX = this.tableNumX + MyCanvas.px2Rem(50) * this.ratio // 成功的卡牌区域x偏移量
+    this.tableSuccessCardsX = this.tableNumX + MyCanvas.px2Rem(60) * this.ratio // 成功的卡牌区域x偏移量
     this.tableSuccessCardsY = this.tableAreaY + tableAreaYPad // 成功的卡牌区域y偏移量
     this.tableSuccessCardsPad = MyCanvas.px2Rem(6) * this.ratio // 成功的卡牌区域之间的留白
 
@@ -158,6 +158,8 @@ export default {
 
     this.historyAreaX = 0 // 游戏历史区域x偏移量
     this.historyAreaY = this.playerAreaH + this.tableAreaH // 游戏历史区域y偏移量
+
+    this.infoFontSize = 36
 
     /* 绘图 */
 
@@ -392,7 +394,7 @@ export default {
       this.ctx.fillStyle = this.playerInfoBgColor
 
       MyCanvas.drawRoundedRect(rect, this.radius, this.ctx)
-      this.ctx.font = '36px Microsoft JhengHei'
+      this.ctx.font = MyCanvas.px2Rem(36) + 'px Microsoft JhengHei'
       this.ctx.fillStyle = this.playerInfoTextColor
       this.ctx.textAlign = 'left'
       this.ctx.fillText((isHost ? '房主' : '玩家') + ' : ' + info.name + (this.isHost === isHost ? ' (你)' : ''), this.playerInfoTextX, textYOffset)
@@ -405,21 +407,23 @@ export default {
         } else {
           that.ctx.fillStyle = that.playerHandsBackColor
         }
+        console.log(rect)
         MyCanvas.drawRoundedRect(rect, that.radius, that.ctx)
-        // that.ctx.lineWidth = 1 * that.ratio
         that.ctx.strokeStyle = that.playerHandsStrokeColor
         that.ctx.stroke()
 
         if (isVisible) {
-          that.ctx.font = '60px Microsoft JhengHei'
+          that.ctx.font = MyCanvas.px2Rem(60) + 'px Microsoft JhengHei'
           that.ctx.fillStyle = that.playerInfoTextColor
-          that.ctx.textAlign = 'left'
-          that.ctx.fillText(that.numbers[num], rect.x + 16 * that.ratio, rect.y + 50 * that.ratio)
+          that.ctx.textAlign = 'center'
+          that.ctx.textBaseline = 'middle'
+          that.ctx.fillText(that.numbers[num], rect.x + rect.w / 2, rect.y + rect.h / 2)
         } else {
-          that.ctx.font = '60px Microsoft JhengHei'
+          that.ctx.font = MyCanvas.px2Rem(60) + 'px Microsoft JhengHei'
           that.ctx.fillStyle = that.playerInfoTextColor
-          that.ctx.textAlign = 'left'
-          that.ctx.fillText(num, rect.x + 16 * that.ratio, rect.y + 50 * that.ratio)
+          that.ctx.textAlign = 'center'
+          that.ctx.textBaseline = 'middle'
+          that.ctx.fillText(num, rect.x + rect.w / 2, rect.y + rect.h / 2)
         }
       }
       let rects
@@ -439,40 +443,47 @@ export default {
     },
     drawLibraryCardsNum (num) {
       const that = this
-      that.ctx.font = '40px Microsoft JhengHei'
+      that.ctx.font = MyCanvas.px2Rem(36) + 'px Microsoft JhengHei'
       that.ctx.fillStyle = that.playerInfoTextColor
-      that.ctx.textAlign = 'left'
-      that.ctx.fillText('剩余', that.tableLibraryX + 6 * that.ratio, that.tableLibraryY + 40 * that.ratio)
-      that.ctx.fillText(num + '张', that.tableLibraryX + 4 * that.ratio, that.tableLibraryY + 60 * that.ratio)
+      that.ctx.textAlign = 'center'
+      that.ctx.textBaseline = 'bottom'
+      that.ctx.fillText('剩余', that.tableLibraryX + that.tableLibraryW / 2, that.tableLibraryY + that.tableLibraryH / 2)
+      that.ctx.textBaseline = 'top'
+      that.ctx.fillText(num + '张', that.tableLibraryX + that.tableLibraryW / 2, that.tableLibraryY + that.tableLibraryH / 2)
     },
     drawDiscardCardsNum (num) {
       const that = this
-      that.ctx.font = '40px Microsoft JhengHei'
+      that.ctx.font = MyCanvas.px2Rem(40) + 'px Microsoft JhengHei'
       that.ctx.fillStyle = that.playerInfoTextColor
-      that.ctx.textAlign = 'left'
-      that.ctx.fillText('弃牌', that.tableDiscardX + 6 * that.ratio, that.tableDiscardY + 40 * that.ratio)
-      that.ctx.fillText(num + '张', that.tableDiscardX + 4 * that.ratio, that.tableDiscardY + 60 * that.ratio)
+      that.ctx.textAlign = 'center'
+      that.ctx.textBaseline = 'bottom'
+      that.ctx.fillText('弃牌', that.tableDiscardX + that.tableDiscardW / 2, that.tableDiscardY + that.tableDiscardH / 2)
+      that.ctx.textBaseline = 'top'
+      that.ctx.fillText(num + '张', that.tableDiscardX + that.tableDiscardW / 2, that.tableDiscardY + that.tableDiscardH / 2)
     },
     drawCueNum (num) {
       const that = this
-      that.ctx.font = '30px Microsoft JhengHei'
+      that.ctx.font = MyCanvas.px2Rem(that.infoFontSize) + 'px Microsoft JhengHei'
       that.ctx.fillStyle = that.playerInfoTextColor
       that.ctx.textAlign = 'left'
-      that.ctx.fillText('提示:' + num, that.tableNumX, that.tableNumY + 30 * that.ratio)
+      that.ctx.textBaseline = 'top'
+      that.ctx.fillText('提示:' + num, that.tableNumX, that.tableNumY + MyCanvas.px2Rem(4) * that.ratio)
     },
     drawChanceNum (num) {
       const that = this
-      that.ctx.font = '30px Microsoft JhengHei'
+      that.ctx.font = MyCanvas.px2Rem(that.infoFontSize) + 'px Microsoft JhengHei'
       that.ctx.fillStyle = that.playerInfoTextColor
       that.ctx.textAlign = 'left'
-      that.ctx.fillText('机会:' + num, that.tableNumX, that.tableNumY + 50 * that.ratio)
+      that.ctx.textBaseline = 'top'
+      that.ctx.fillText('机会:' + num, that.tableNumX, that.tableNumY + MyCanvas.px2Rem(24) * that.ratio)
     },
     drawScore (score) {
       const that = this
-      that.ctx.font = '30px Microsoft JhengHei'
+      that.ctx.font = MyCanvas.px2Rem(that.infoFontSize) + 'px Microsoft JhengHei'
       that.ctx.fillStyle = that.playerInfoTextColor
       that.ctx.textAlign = 'left'
-      that.ctx.fillText('分数:' + score, that.tableNumX, that.tableNumY + 70 * that.ratio)
+      that.ctx.textBaseline = 'top'
+      that.ctx.fillText('分数:' + score, that.tableNumX, that.tableNumY + MyCanvas.px2Rem(44) * that.ratio)
     },
     drawSuccessCards (cards) {
       const that = this
@@ -490,10 +501,11 @@ export default {
         that.ctx.strokeStyle = that.playerHandsStrokeColor
         that.ctx.stroke()
 
-        that.ctx.font = '30px Microsoft JhengHei'
+        that.ctx.font = MyCanvas.px2Rem(30) + 'px Microsoft JhengHei'
         that.ctx.fillStyle = that.playerInfoTextColor
-        that.ctx.textAlign = 'left'
-        that.ctx.fillText(cards[c], rect.x + 6 * that.ratio, rect.y + 20 * that.ratio)
+        that.ctx.textAlign = 'center'
+        that.ctx.textBaseline = 'middle'
+        that.ctx.fillText(cards[c], rect.x + rect.w / 2, rect.y + rect.h / 2)
       }
     },
     drawRoundPlayerIsHost (isHost) {
@@ -526,7 +538,7 @@ export default {
       MyCanvas.drawRoundedRect(rectHost, this.radius, this.ctx)
       MyCanvas.drawRoundedRect(rectGuest, this.radius, this.ctx)
 
-      this.ctx.font = '26px Microsoft JhengHei'
+      this.ctx.font = MyCanvas.px2Rem(26) + 'px Microsoft JhengHei'
       this.ctx.fillStyle = this.playerInfoTextColor
       this.ctx.textAlign = 'left'
       this.ctx.fillText('(当前回合玩家)', rect.x, rect.y + 20 * this.ratio)
