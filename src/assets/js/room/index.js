@@ -20,6 +20,8 @@ export default {
 
     this.ratio = MyCanvas.getPixelRatio(this.ctx)
 
+    // console.log(window.innerWidth * this.ratio)
+
     /* 设置canvas宽度高度，铺满全屏 */
     this.canvas.width = window.innerWidth * this.ratio
     this.canvas.height = (window.innerHeight - MyCanvas.px2Rem(40)) * this.ratio
@@ -42,7 +44,11 @@ export default {
     this.radius = MyCanvas.px2Rem(10) * this.ratio // 矩形圆角半径
 
     this.topLeftPad = MyCanvas.px2Rem(10) * this.ratio // 左侧pad
-    this.topWidth = this.canvas.width - this.topLeftPad * MyCanvas.px2Rem(2) // 去除左右pad后的宽度
+    this.topWidth = this.canvas.width - this.topLeftPad * 2 // 去除左右pad后的宽度
+
+    // console.log(this.canvas.width)
+    // console.log(this.topLeftPad)
+    // console.log(this.topWidth)
 
     this.playerAreaX = this.topLeftPad // 玩家区域x偏移量(相对整个画布)
     this.playerAreaHostY = MyCanvas.px2Rem(10) * this.ratio // 房主玩家区域y偏移量(相对整个画布)
@@ -119,7 +125,7 @@ export default {
       this.radius,
       this.ctx
     )
-    this.ctx.font = '40px Arial'
+    this.ctx.font = MyCanvas.px2Rem(40) + 'px Arial'
     this.ctx.fillStyle = '#FFFFFF'
     this.ctx.textAlign = 'center'
     this.ctx.fillText('退出房间', this.canvas.width / 2, this.exitBtnY + this.exitBtnTextY)
@@ -143,7 +149,7 @@ export default {
           that.radius,
           that.ctx
         )
-        that.ctx.font = '40px Arial'
+        that.ctx.font = MyCanvas.px2Rem(40) + 'px Arial'
         that.ctx.fillStyle = '#FFFFFF'
         that.ctx.textAlign = 'center'
         that.ctx.fillText('退出房间', that.canvas.width / 2, that.exitBtnY + that.exitBtnTextY)
@@ -179,7 +185,7 @@ export default {
             }
           }
         })
-      }, 500)
+      }, 1000)
     })
   },
   watch: {
@@ -260,7 +266,7 @@ export default {
       this.ctx.fillStyle = this.playerInfoBgColor
 
       MyCanvas.drawRoundedRect(rect, this.radius, this.ctx)
-      this.ctx.font = '36px Microsoft JhengHei'
+      this.ctx.font = MyCanvas.px2Rem(40) + 'px Microsoft JhengHei'
       this.ctx.fillStyle = this.playerInfoTextColor
       this.ctx.textAlign = 'left'
 
@@ -279,7 +285,7 @@ export default {
         }
       }
 
-      this.ctx.font = '30px Microsoft JhengHei'
+      this.ctx.font = MyCanvas.px2Rem(32) + 'px Microsoft JhengHei'
       this.ctx.textAlign = 'left'
       this.ctx.fillStyle = this.playerAreaBgColor
       MyCanvas.drawRoundedRect(this.playerButtonRectHost, this.radius, this.ctx)

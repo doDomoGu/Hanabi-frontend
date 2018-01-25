@@ -244,7 +244,7 @@ export default {
             })
           }
         })
-      }, 300)
+      }, 1000)
     })
   },
   beforeDestroy () {
