@@ -41,7 +41,8 @@ export default {
 
     const playerAreaXPad = MyCanvas.px2Rem(20) * this.ratio // 玩家区域内的左右留白
     const playerAreaYPad = MyCanvas.px2Rem(10) * this.ratio // 玩家区域内的上留白
-    const playerInfoPad = MyCanvas.px2Rem(20) * this.ratio // 玩家信息文字相对玩家信息的留白
+    const playerInfoXPad = MyCanvas.px2Rem(20) * this.ratio // 玩家信息文字相对玩家信息的左右留白
+    const playerInfoYPad = MyCanvas.px2Rem(6) * this.ratio // 玩家信息文字相对玩家信息的上留白
 
     const tableAreaXPad = MyCanvas.px2Rem(20) * this.ratio // 桌面区域内的左右留白
     const tableAreaYPad = MyCanvas.px2Rem(10) * this.ratio // 桌面区域内的上留白
@@ -106,9 +107,9 @@ export default {
     this.playerInfoGuestY = this.playerAreaGuestY + playerAreaYPad // (访客)玩家信息y偏移量
     // 玩家信息的高度
 
-    this.playerInfoTextX = this.playerInfoX + playerInfoPad // 玩家信息内文字x偏移量
-    this.playerInfoTextHostY = this.playerInfoHostY + playerInfoPad // (房主)玩家信息内文字y偏移量
-    this.playerInfoTextGuestY = this.playerInfoGuestY + playerInfoPad // (访客)玩家信息内文字y偏移量
+    this.playerInfoTextX = this.playerInfoX + playerInfoXPad // 玩家信息内文字x偏移量
+    this.playerInfoTextHostY = this.playerInfoHostY + playerInfoYPad // (房主)玩家信息内文字y偏移量
+    this.playerInfoTextGuestY = this.playerInfoGuestY + playerInfoYPad // (访客)玩家信息内文字y偏移量
 
     this.playerHandsFirstX = MyCanvas.px2Rem(20) * this.ratio // 玩家手牌第一张x偏移量(相对玩家区域)
     this.playerHandsHostY = this.playerInfoHostY + this.playerInfoH + MyCanvas.px2Rem(20) * this.ratio // (房主)玩家手牌y偏移量
@@ -397,6 +398,7 @@ export default {
       this.ctx.font = MyCanvas.px2Rem(36) + 'px Microsoft JhengHei'
       this.ctx.fillStyle = this.playerInfoTextColor
       this.ctx.textAlign = 'left'
+      this.ctx.textBaseline = 'top'
       this.ctx.fillText((isHost ? '房主' : '玩家') + ' : ' + info.name + (this.isHost === isHost ? ' (你)' : ''), this.playerInfoTextX, textYOffset)
     },
     drawHands (cards, isHost) {
@@ -509,8 +511,8 @@ export default {
       }
     },
     drawRoundPlayerIsHost (isHost) {
-      const x = this.playerInfoX + this.playerInfoW - 120 * this.ratio
-      const w = 120 * this.ratio
+      const x = this.playerInfoX + this.playerInfoW - MyCanvas.px2Rem(120) * this.ratio
+      const w = MyCanvas.px2Rem(120) * this.ratio
       const h = this.playerInfoH
 
       const rectHost = {
@@ -528,10 +530,13 @@ export default {
       }
 
       let rect
+      let textY
       if (isHost) {
         rect = rectHost
+        textY = this.playerInfoTextHostY
       } else {
         rect = rectGuest
+        textY = this.playerInfoTextGuestY
       }
 
       this.ctx.fillStyle = this.playerInfoBgColor
@@ -541,7 +546,8 @@ export default {
       this.ctx.font = MyCanvas.px2Rem(26) + 'px Microsoft JhengHei'
       this.ctx.fillStyle = this.playerInfoTextColor
       this.ctx.textAlign = 'left'
-      this.ctx.fillText('(当前回合玩家)', rect.x, rect.y + 20 * this.ratio)
+      this.ctx.textBaseline = 'top'
+      this.ctx.fillText('(当前回合玩家)', rect.x, textY)
     },
     isHostHandsPath (mousePos) {
       let ord = -1
