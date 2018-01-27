@@ -535,10 +535,10 @@ export default {
       let textY
       if (isHost) {
         rect = rectHost
-        textY = this.playerInfoTextHostY
+        textY = this.playerInfoHostY + this.playerInfoH / 2
       } else {
         rect = rectGuest
-        textY = this.playerInfoTextGuestY
+        textY = this.playerInfoGuestY + this.playerInfoH / 2
       }
 
       this.ctx.fillStyle = this.playerInfoBgColor
@@ -548,7 +548,7 @@ export default {
       this.ctx.font = MyCanvas.px2Rem(26) + 'px Microsoft JhengHei'
       this.ctx.fillStyle = this.playerInfoTextColor
       this.ctx.textAlign = 'left'
-      this.ctx.textBaseline = 'top'
+      this.ctx.textBaseline = 'middle'
       this.ctx.fillText('(当前回合玩家)', rect.x, textY)
     },
     isHostHandsPath (mousePos) {
