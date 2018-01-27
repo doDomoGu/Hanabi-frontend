@@ -381,10 +381,12 @@ export default {
       let rectYOffset, textYOffset
       if (isHost) {
         rectYOffset = this.playerInfoHostY
-        textYOffset = this.playerInfoTextHostY
+        textYOffset = this.playerInfoHostY + this.playerInfoH / 2
+        // textYOffset = this.playerInfoTextHostY
       } else {
         rectYOffset = this.playerInfoGuestY
-        textYOffset = this.playerInfoTextGuestY
+        textYOffset = this.playerInfoGuestY + this.playerInfoH / 2
+        // textYOffset = this.playerInfoTextGuestY
       }
       const rect = {
         x: this.playerInfoX,
@@ -398,7 +400,7 @@ export default {
       this.ctx.font = MyCanvas.px2Rem(36) + 'px Microsoft JhengHei'
       this.ctx.fillStyle = this.playerInfoTextColor
       this.ctx.textAlign = 'left'
-      this.ctx.textBaseline = 'top'
+      this.ctx.textBaseline = 'middle'
       this.ctx.fillText((isHost ? '房主' : '玩家') + ' : ' + info.name + (this.isHost === isHost ? ' (你)' : ''), this.playerInfoTextX, textYOffset)
     },
     drawHands (cards, isHost) {
