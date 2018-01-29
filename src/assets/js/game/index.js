@@ -411,7 +411,6 @@ export default {
         } else {
           that.ctx.fillStyle = that.playerHandsBackColor
         }
-        console.log(rect)
         MyCanvas.drawRoundedRect(rect, that.radius, that.ctx)
         that.ctx.strokeStyle = that.playerHandsStrokeColor
         that.ctx.stroke()
