@@ -1,10 +1,10 @@
 import axios from '../../axios'
 
 const state = {
-  isLogin: false,
-  userId: 0,
+  isLogin: null,
+  userId: -1,
   userInfo: {},
-  token: ''
+  token: null
 }
 
 const actions = {

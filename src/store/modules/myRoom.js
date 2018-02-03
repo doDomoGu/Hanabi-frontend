@@ -2,7 +2,7 @@ import axios from '../../axios'
 
 const state = {
   roomId: -1,
-  isHost: false,
+  isHost: null,
   hostPlayer: {
     id: -1,
     username: null,
@@ -13,7 +13,7 @@ const state = {
     username: null,
     name: null
   },
-  isReady: false
+  isReady: null
 }
 
 const actions = {

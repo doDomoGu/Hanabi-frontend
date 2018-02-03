@@ -1,15 +1,17 @@
 <template>
     <div id="index">
-        <div v-if="isLogin()" >
-            <div v-if="isInGame()" >
+        <div v-if="isLogin" >
+            <div v-if="isInGame" >
                 <mt-cell title="您的游戏正在进行中！" to="/game" is-link value="进入">
                 </mt-cell>
             </div>
-            <div v-else-if="isInRoom()" >
+            <div v-else-if="isInRoom" >
                 <mt-cell title="您已在房间中！" to="/room" is-link value="进入">
                 </mt-cell>
             </div>
-            <div v-else :key="item.id" v-for="item in roomList">
+
+
+            <div v-if="isInGame===false && isInRoom===false" :key="item.id" v-for="item in roomList">
                 <mt-cell :title="item._title" is-link @click.native="enterRoom(item.id)" value="进入">
                 </mt-cell>
             </div>

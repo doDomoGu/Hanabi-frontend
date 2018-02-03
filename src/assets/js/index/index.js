@@ -9,7 +9,7 @@ export default {
   },
   created: function () {
     this.$store.dispatch('common/SetTitle2', 'Hanabi')
-    if (this.isLogin()) {
+    if (this.isLogin) {
       this.$store.dispatch('common/SetTitle2', '(' + this.$store.getters['auth/userId'] + ')')
       this.$store.dispatch('room/List')
       this.$store.dispatch('myRoom/GetInfo', { mode: 'simple', force: true })
@@ -28,7 +28,16 @@ export default {
         }
       }
       return list
-    }
+    },
+    isInRoom () {
+      return this.$store.getters['myRoom/roomId'] > 0
+    },
+    isInGame () {
+      return this.$store.getters['myGame/isPlaying'] === true
+    },
+    isLogin () {
+      return this.$store.getters['auth/isLogin'] === true
+    },
   },
   methods: {
     toLogin () {
@@ -37,9 +46,6 @@ export default {
     /* toRegister(){
 
     },*/
-    isLogin () {
-      return this.$store.getters['auth/isLogin']
-    },
     enterRoom (roomId) {
       const that = this
       this.$store.dispatch('myRoom/Enter', roomId).then((res) => {
@@ -49,12 +55,6 @@ export default {
           MessageBox.alert(res.msg + '(' + roomId + ')')
         }
       })
-    },
-    isInRoom () {
-      return this.$store.getters['myRoom/roomId'] > 0
-    },
-    isInGame () {
-      return this.$store.getters['myGame/isPlaying'] === true
     }
   }
 }

@@ -1,7 +1,7 @@
 import axios from '../../axios'
 
 const state = {
-  count: 0,
+  count: -1,
   list: []
 }
 
