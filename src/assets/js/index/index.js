@@ -35,6 +35,12 @@ export default {
     isInGame () {
       return this.$store.getters['myGame/isPlaying'] === true
     },
+    isNotInRoom () {
+      return this.$store.getters['myRoom/roomId'] === 0
+    },
+    isNotInGame () {
+      return this.$store.getters['myGame/isPlaying'] === false
+    },
     isLogin () {
       return this.$store.getters['auth/isLogin'] === true
     },

@@ -9,9 +9,7 @@
                 <mt-cell title="您已在房间中！" to="/room" is-link value="进入">
                 </mt-cell>
             </div>
-
-
-            <div v-if="isInGame===false && isInRoom===false" :key="item.id" v-for="item in roomList">
+            <div v-if="isNotInGame && isNotInRoom" :key="item.id" v-for="item in roomList">
                 <mt-cell :title="item._title" is-link @click.native="enterRoom(item.id)" value="进入">
                 </mt-cell>
             </div>
