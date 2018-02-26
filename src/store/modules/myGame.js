@@ -9,6 +9,7 @@ const state = {
   roundPlayerIsHost: -1,
   libraryCardsNum: -1,
   discardCardsNum: -1,
+  lastUpdated: null,
   cueNum: -1,
   chanceNum: -1,
   score: -1,
@@ -173,7 +174,26 @@ const actions = {
           reject(error)
         })
     })
-  }
+  },
+  AutoPlay ({ commit }, cardSelectOrd) {
+    return new Promise((resolve, reject) => {
+      axios.post(
+        '/my-game/auto-play' + '?accessToken=' + this.getters['auth/token']
+      )
+        .then((res) => {
+          if (res.data.success) {
+            // commit('SetGameId',res.data.data.game_id);
+          } else {
+            // commit('ClearInfo');
+          }
+
+          resolve(res.data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
 
 }
 
@@ -193,6 +213,7 @@ const getters = {
   roundPlayerIsHost: state => state.roundPlayerIsHost,
   libraryCardsNum: state => state.libraryCardsNum,
   discardCardsNum: state => state.discardCardsNum,
+  lastUpdated: state => state.lastUpdated,
   cueNum: state => state.cueNum,
   chanceNum: state => state.chanceNum,
   score: state => state.score,
@@ -219,6 +240,7 @@ const mutations = {
   SetGameInfo (state, data) {
     state.roundNum = data.roundNum
     state.roundPlayerIsHost = data.roundPlayerIsHost
+    state.lastUpdated = data.lastUpdated
   },
   ClearInfo (state) {
     state.isPlaying = null
@@ -229,6 +251,7 @@ const mutations = {
     state.roundPlayerIsHost = -1
     state.libraryCardsNum = -1
     state.discardCardsNum = -1
+    state.lastUpdated = null
     state.cueNum = -1
     state.chanceNum = -1
     state.score = -1

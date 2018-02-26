@@ -1,6 +1,7 @@
 import { MessageBox, Toast } from 'mint-ui'
 import XDialog from 'vux/src/components/x-dialog'
 import MyCanvas from '../MyCanvas'
+import moment from 'moment'
 
 export default {
   name: 'game',
@@ -236,6 +237,11 @@ export default {
 
       this.intervalid1 = setInterval(() => {
         const _score = this.$store.getters['myGame/score'] + ''
+        if (parseInt(moment().format('X')) - parseInt(moment(this.lastUpdated).format('X')) > 30) {
+          if (this.roundPlayerIsHost === this.isHost) {
+            this.$store.dispatch('myGame/AutoPlay')
+          }
+        }
         this.$store.dispatch('myGame/GetInfo').then(() => {
           if (this.$store.getters['myGame/isPlaying'] !== true) {
             clearInterval(this.intervalid1)
@@ -296,6 +302,9 @@ export default {
     },
     logList: function () {
       return this.$store.getters['myGame/logList2']
+    },
+    lastUpdated: function () {
+      return this.$store.getters['myGame/lastUpdated']
     }
   },
   watch: {
