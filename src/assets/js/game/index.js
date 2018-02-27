@@ -241,6 +241,10 @@ export default {
           if (this.roundPlayerIsHost === this.isHost) {
             this.$store.dispatch('myGame/AutoPlay')
           }
+        } else {
+          if (this.roundPlayerIsHost === this.isHost) {
+            this.drawRoundCountdown(this.isHost)
+          }
         }
         this.$store.dispatch('myGame/GetInfo').then(() => {
           if (this.$store.getters['myGame/isPlaying'] !== true) {
@@ -558,6 +562,45 @@ export default {
       this.ctx.textAlign = 'left'
       this.ctx.textBaseline = 'middle'
       this.ctx.fillText('(当前回合玩家)', rect.x, textY)
+    },
+    drawRoundCountdown (isHost) {
+      const x = this.playerInfoX + this.playerInfoW - MyCanvas.px2Rem(50) * this.ratio
+      const w = MyCanvas.px2Rem(30) * this.ratio
+      const h = this.playerInfoH
+
+      const rectHost = {
+        x: x,
+        y: this.playerInfoHostY,
+        w: w,
+        h: h
+      }
+
+      const rectGuest = {
+        x: x,
+        y: this.playerInfoGuestY,
+        w: w,
+        h: h
+      }
+
+      let rect
+      let textY
+      if (isHost) {
+        rect = rectHost
+        textY = this.playerInfoHostY + this.playerInfoH / 2
+      } else {
+        rect = rectGuest
+        textY = this.playerInfoGuestY + this.playerInfoH / 2
+      }
+
+      this.ctx.fillStyle = this.playerInfoBgColor
+      MyCanvas.drawRoundedRect(rectHost, this.radius, this.ctx)
+      MyCanvas.drawRoundedRect(rectGuest, this.radius, this.ctx)
+
+      this.ctx.font = MyCanvas.px2Rem(26) + 'px Microsoft JhengHei'
+      this.ctx.fillStyle = this.playerInfoTextColor
+      this.ctx.textAlign = 'left'
+      this.ctx.textBaseline = 'middle'
+      this.ctx.fillText((30 - (parseInt(moment().format('X')) - parseInt(moment(this.lastUpdated).format('X')))), rect.x, textY)
     },
     isHostHandsPath (mousePos) {
       let ord = -1
