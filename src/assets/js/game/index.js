@@ -242,9 +242,7 @@ export default {
             this.$store.dispatch('myGame/AutoPlay')
           }
         } else {
-          if (this.roundPlayerIsHost === this.isHost) {
-            this.drawRoundCountdown(this.isHost)
-          }
+          this.drawRoundCountdown(this.roundPlayerIsHost)
         }
         this.$store.dispatch('myGame/GetInfo').then(() => {
           if (this.$store.getters['myGame/isPlaying'] !== true) {
