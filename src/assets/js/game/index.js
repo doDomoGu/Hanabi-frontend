@@ -216,12 +216,14 @@ export default {
       const hostHandsOrd = that.isHostHandsPath(mousePos)
       const guestHandsOrd = that.isGuestHandsPath(mousePos)
 
-      if (hostHandsOrd > -1) {
-        that.showCardOperation(that.hostHands, that.hostHands[hostHandsOrd], that.isHost ? 0 : 1)
-      } else if (guestHandsOrd > -1) {
-        that.showCardOperation(that.guestHands, that.guestHands[guestHandsOrd], that.isHost ? 1 : 0)
-      } else {
-        // console.log(1111)
+      if (that.roundPlayerIsHost === that.isHost){
+        if (hostHandsOrd > -1) {
+          that.showCardOperation(that.hostHands, that.hostHands[hostHandsOrd], that.isHost ? 0 : 1)
+        } else if (guestHandsOrd > -1) {
+          that.showCardOperation(that.guestHands, that.guestHands[guestHandsOrd], that.isHost ? 1 : 0)
+        } else {
+          // console.log(1111)
+        }
       }
     }, false)
   },
