@@ -175,32 +175,32 @@ export default {
     this.ctx.fillRect(this.tableAreaX, this.tableAreaY, this.tableAreaW, this.tableAreaH)
 
     // 牌库
-    this.ctx.fillStyle = this.tableLibraryBgColor
-    MyCanvas.drawRoundedRect(
-      {
-        x: this.tableLibraryX,
-        y: this.tableLibraryY,
-        w: this.tableLibraryW,
-        h: this.tableLibraryH
-      },
-      this.radius,
-      this.ctx
-    )
-    this.ctx.stroke()
+    // this.ctx.fillStyle = this.tableLibraryBgColor
+    // MyCanvas.drawRoundedRect(
+    //   {
+    //     x: this.tableLibraryX,
+    //     y: this.tableLibraryY,
+    //     w: this.tableLibraryW,
+    //     h: this.tableLibraryH
+    //   },
+    //   this.radius,
+    //   this.ctx
+    // )
+    // this.ctx.stroke()
 
     // 弃牌堆
-    this.ctx.fillStyle = this.tableDiscardBgColor
-    MyCanvas.drawRoundedRect(
-      {
-        x: this.tableDiscardX,
-        y: this.tableDiscardY,
-        w: this.tableDiscardW,
-        h: this.tableDiscardH
-      },
-      this.radius,
-      this.ctx
-    )
-    this.ctx.stroke()
+    // this.ctx.fillStyle = this.tableDiscardBgColor
+    // MyCanvas.drawRoundedRect(
+    //   {
+    //     x: this.tableDiscardX,
+    //     y: this.tableDiscardY,
+    //     w: this.tableDiscardW,
+    //     h: this.tableDiscardH
+    //   },
+    //   this.radius,
+    //   this.ctx
+    // )
+    // this.ctx.stroke()
 
     // 绘制游戏历史区域
     this.ctx.fillStyle = this.historyAreaBgColor
@@ -459,6 +459,19 @@ export default {
     },
     drawLibraryCardsNum (num) {
       const that = this
+      that.ctx.fillStyle = this.tableLibraryBgColor
+      MyCanvas.drawRoundedRect(
+        {
+          x: that.tableLibraryX,
+          y: that.tableLibraryY,
+          w: that.tableLibraryW,
+          h: that.tableLibraryH
+        },
+        that.radius,
+        that.ctx
+      )
+      that.ctx.stroke()
+
       that.ctx.font = MyCanvas.px2Rem(36) + 'px Microsoft JhengHei'
       that.ctx.fillStyle = that.playerInfoTextColor
       that.ctx.textAlign = 'center'
@@ -469,6 +482,19 @@ export default {
     },
     drawDiscardCardsNum (num) {
       const that = this
+      that.ctx.fillStyle = that.tableDiscardBgColor
+      MyCanvas.drawRoundedRect(
+        {
+          x: that.tableDiscardX,
+          y: that.tableDiscardY,
+          w: that.tableDiscardW,
+          h: that.tableDiscardH
+        },
+        that.radius,
+        that.ctx
+      )
+      that.ctx.stroke()
+
       that.ctx.font = MyCanvas.px2Rem(40) + 'px Microsoft JhengHei'
       that.ctx.fillStyle = that.playerInfoTextColor
       that.ctx.textAlign = 'center'
@@ -479,6 +505,9 @@ export default {
     },
     drawCueNum (num) {
       const that = this
+      that.ctx.fillStyle = that.tableAreaBgColor
+      that.ctx.fillRect(that.tableNumX, that.tableNumY + MyCanvas.px2Rem(4) * that.ratio, MyCanvas.px2Rem(40) * that.ratio, MyCanvas.px2Rem(20) * that.ratio)
+
       that.ctx.font = MyCanvas.px2Rem(that.infoFontSize) + 'px Microsoft JhengHei'
       that.ctx.fillStyle = that.playerInfoTextColor
       that.ctx.textAlign = 'left'
@@ -487,6 +516,9 @@ export default {
     },
     drawChanceNum (num) {
       const that = this
+      that.ctx.fillStyle = that.tableAreaBgColor
+      that.ctx.fillRect(that.tableNumX, that.tableNumY + MyCanvas.px2Rem(24) * that.ratio, MyCanvas.px2Rem(40) * that.ratio, MyCanvas.px2Rem(20) * that.ratio)
+
       that.ctx.font = MyCanvas.px2Rem(that.infoFontSize) + 'px Microsoft JhengHei'
       that.ctx.fillStyle = that.playerInfoTextColor
       that.ctx.textAlign = 'left'
@@ -495,6 +527,9 @@ export default {
     },
     drawScore (score) {
       const that = this
+      that.ctx.fillStyle = that.tableAreaBgColor
+      that.ctx.fillRect(that.tableNumX, that.tableNumY + MyCanvas.px2Rem(44) * that.ratio, MyCanvas.px2Rem(40) * that.ratio, MyCanvas.px2Rem(20) * that.ratio)
+
       that.ctx.font = MyCanvas.px2Rem(that.infoFontSize) + 'px Microsoft JhengHei'
       that.ctx.fillStyle = that.playerInfoTextColor
       that.ctx.textAlign = 'left'
