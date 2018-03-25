@@ -31,6 +31,29 @@ const actions = {
         })
     })
   },
+  Register ({ commit }, [username, password]) {
+    return new Promise((resolve, reject) => {
+      axios.post(
+        '/register',
+        {
+          username: username,
+          password: password
+        }
+      )
+        .then((res) => {
+          if (res.data && res.data.success) {
+            commit('setToken', { token: res.data.token, forceUpdate: true })
+            commit('setLoginState')
+            commit('setUserId', { userId: res.data.userId })
+            commit('setUserInfo', { userInfo: res.data.userInfo })
+          }
+          resolve(res)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
   CheckToken ({ commit }, token) {
     return new Promise((resolve, reject) => {
       axios.get(

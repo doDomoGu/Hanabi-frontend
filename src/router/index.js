@@ -70,7 +70,7 @@ const authTrue = function (to, from, next) {
 
 // 无登录状态 跳转至登录页面
 const authFalse = function (to, from, next) {
-  if (to.path !== '/login') {
+  if (to.path !== '/login' && to.path !== '/register') {
     if (!(to.meta.requireAuth)) {
       next()
     } else {

@@ -1,0 +1,9 @@
+@import "../px2rem";
+
+#registerBtn {
+    width:px2rem(335);
+    margin:0 px2rem(20);
+    padding: px2rem(1) px2rem(7) px2rem(2);
+}
+
+

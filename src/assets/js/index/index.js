@@ -49,9 +49,9 @@ export default {
     toLogin () {
       this.$router.push({ path: '/login' })
     },
-    /* toRegister(){
-
-    },*/
+    toRegister () {
+      this.$router.push({ path: '/register' })
+    },
     enterRoom (roomId) {
       const that = this
       this.$store.dispatch('myRoom/Enter', roomId).then((res) => {

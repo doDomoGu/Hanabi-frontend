@@ -2,6 +2,7 @@ import Main from '../views/layouts/main'
 
 import Index from '../views/index/Index'
 import Login from '../views/index/Login'
+import Register from '../views/index/Register'
 
 import NoAuth from '../views/other/NoAuth'
 import NotFound404 from '../views/other/NotFound404'
@@ -57,6 +58,11 @@ var routes = [{
       path: 'login',
       component: Login,
       name: '登录页'
+    },
+    {
+      path: 'register',
+      component: Register,
+      name: '注册页'
     },
     {
       path: '*',

@@ -1,5 +1,5 @@
 // import axios from 'axios';
-
+import { MessageBox } from 'mint-ui'
 export default {
   name: 'LoginForm',
   data () {
@@ -36,12 +36,12 @@ export default {
           // console.log('submit login failure');
           // this.errormsg = res.data.errormsg;
 
-          this.$message.error(res.data.error_msg) // 登录失败提示错误
+          MessageBox.alert(res.data.error_msg) // 登录失败提示错误
         }
       }).catch(err => {
         // console.log('submit login error');
         // console.log(err);
-        this.$message.error(err) // 登录失败提示错误
+        MessageBox.alert(err) // 登录失败提示错误
       })
     }
   }

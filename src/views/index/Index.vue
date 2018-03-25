@@ -17,7 +17,7 @@
         </div>
         <div v-else >
             <mt-button class="loginBtn" type="primary" size="large" @click.native="toLogin">登录</mt-button><br/>
-            <mt-button class="registerBtn" disabled type="danger" size="large" @click.native="toRegister">注册</mt-button>
+            <mt-button class="registerBtn" type="danger" size="large" @click.native="toRegister">注册</mt-button>
         </div>
     </div>
 </template>
