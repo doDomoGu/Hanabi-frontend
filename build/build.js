@@ -14,6 +14,8 @@ if (process.env.NODE_ENV=='production') {
   _webpackConfig = require('./webpack.prod.conf')
 } else if (process.env.NODE_ENV=='test') {
   _webpackConfig = require('./webpack.test.conf')
+} else if (process.env.NODE_ENV=='local') {
+  _webpackConfig = require('./webpack.local.conf')
 }
 
 

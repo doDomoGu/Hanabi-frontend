@@ -11,6 +11,7 @@
     "dev-prod": "webpack-dev-server --inline --progress --config build/webpack.prod.conf.js",
     "start": "npm run dev",
     "build": "node build/build.js",
+    "build-local": "NODE_ENV=local node build/build.js",
     "build-prod": "NODE_ENV=production node build/build.js",
     "build-test": "NODE_ENV=test node build/build.js",
     "pm2": "NODE_APP_INSTANCE=hanabi-frontend PORT=8888  pm2 start build/webpack.dev.conf.js --name=hanabi-frontend",
